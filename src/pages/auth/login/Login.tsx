@@ -26,7 +26,7 @@ const Login = () => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const handleSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
         setLoading(true);
         await loginClass.signIn(
@@ -43,13 +43,13 @@ const Login = () => {
     useEffect(() => {
         if (user.token) {
             localStorage.setItem("token", user.token);
-            navigate("/home");
+            navigate("/user-home");
         }
     }, [user, navigate])
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-900 via-gray-800 to-black">
-            <form className="bg-gray-900 text-gray-300 p-8 md:p-12 rounded-lg shadow-xl max-w-md w-full">
+            <div className="bg-gray-900 text-gray-300 p-8 md:p-12 rounded-lg shadow-xl max-w-md w-full">
                 <h1 className="text-3xl md:text-4xl font-bold text-[#E26003] text-center mb-6">
                     Login
                 </h1>
@@ -128,8 +128,8 @@ const Login = () => {
                         <span className="">Login With Google</span>
                     </button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </div >
     );
 };
 
