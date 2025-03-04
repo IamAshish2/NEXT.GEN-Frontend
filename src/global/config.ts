@@ -4,14 +4,13 @@ const host = "localhost"
 const port = 7172
 
 
-export const base_url = `http://${host}:${port}/api/`
+export const base_url = `https://${host}:${port}/api/`
 
 export const axios_no_auth = axios.create({
     baseURL:base_url,
-    withCredentials: true,
+    withCredentials: false,
     headers:{
         "Content-Type":"application/json",
-        Accept: "application/json",
     }
 })
 
@@ -20,6 +19,7 @@ export const axios_auth = axios.create({
     withCredentials:true,
     headers:{
         "Content-Type": "application/json",
+        Accept: "application/json",
         "Authorization": "Bearer" + localStorage.getItem("token")
     }
 })

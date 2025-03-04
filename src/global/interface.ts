@@ -1,3 +1,4 @@
+import { IToasterData } from "./components/toaster/interface";
 
 export interface IGlobalStore {
     // activeUrl: string;
@@ -8,5 +9,8 @@ export interface IGlobalStore {
     //   name:string
     };
     // setUser: (data: { role: string; token: string; name:string }) => void;
-    setUser: (data: {token:string}) => void
+    setUser: (data: {token:string}) => void,
+    toaster: IToasterData,
+    setToasterData: (data:IToasterData) => void,
+    closeToasterData: () => void
   }
