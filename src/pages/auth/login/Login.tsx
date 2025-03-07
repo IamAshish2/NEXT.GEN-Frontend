@@ -104,7 +104,7 @@ const Login = () => {
                         className="text-sm text-gray-200"
                     >
                         Don't have an Account ?  {""}
-                        <Link to="/" className="text-gray-400  hover:underline hover:cursor-pointer underline hover:text-white">Sign Up</Link>
+                        <Link to="/signup" className="text-gray-400  hover:underline hover:cursor-pointer underline hover:text-white">Sign Up</Link>
                     </button>
                 </div>
 

@@ -20,10 +20,13 @@ export class LoginClass {
         }) => void,
         loginUser: () => Promise<false | {token: string}>,
     ) => {
+
+        setLoading(true);
         const errors = this.validateData(data);
         if(Object.keys(errors).length > 0){
             setLoading(false);
             setSignInDataError(errors);
+            setLoading(false);
             return false;
         }
 
@@ -32,11 +35,10 @@ export class LoginClass {
             if(res && Object.keys(res).length > 0){
                 setUser({
                     token: res?.token
-                  });
-                
-                setLoading(false);
-                clearSignInData();
-                clearSignInDataError();
+                  });  
+                  clearSignInData();
+                  clearSignInDataError();
+                  setLoading(false);
                 return true;
             }
         } catch (error) {

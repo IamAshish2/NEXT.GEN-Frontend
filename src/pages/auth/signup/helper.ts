@@ -20,7 +20,7 @@ export class SignUpHelper{
         clearSignUpErrors: () => void,
         setToasterData: (data:IToasterData) => void
     ) => {
-
+        setLoading(true);
         const errors = this.validateData(signUpData);
         
         if(errors && Object.keys(errors).length > 0){
@@ -31,20 +31,21 @@ export class SignUpHelper{
                 message: "Fill out the form properly",
                 open: true,
               });
+            setLoading(false);
             return false;
         }
 
         try {
             const res = await signUp();
             if(res){
-                setLoading(false);
                 clearSignUpData();
                 clearSignUpErrors();
                 setToasterData({
                     severity: "success",
                     message: "successfully signed up",
                     open: true,
-                  });
+                });
+                setLoading(false);
                 return res;
             }
             setLoading(false);
