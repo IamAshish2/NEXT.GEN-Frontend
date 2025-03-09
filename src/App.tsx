@@ -4,6 +4,8 @@ import { lazy, Suspense } from "react";
 import Loader from "./global/components/Loader";
 import { useGlobalStore } from "./global/store";
 import Toaster from "./global/components/toaster/toaster";
+
+
 const SignUpPage = lazy(() => import("./pages/auth/signup/SignUp"));
 const LoginPage = lazy(() => import("./pages/auth/login/Login"))
 const PublicLayout = lazy(() => import("@/pages/layout/public/public-layout"))

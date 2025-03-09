@@ -1,21 +1,28 @@
 import { Outlet } from "react-router-dom";
-import Header from "./components/header";
-import Footer from "./components/footer";
+import Header from "../../../global/constants/header";
+import Footer from "../../../global/constants/footer";
+import { useHamburgerNavigation } from "@/global/constants/store";
+import MobileNavigation from "./components/mobile-navigation";
+
 
 const PublicLayout = () => {
+    const { isOpen } = useHamburgerNavigation();
+
     return (
         <div className="flex flex-col items-center justify-between p-6 ">
             {/* Header styles for larger screens */}
-            <div className="sm:flex hidden">
+            <div className="w-full">
                 <Header />
             </div>
 
-            <div>
-                <Outlet />
-            </div>
-
-            <div>
-                <Footer />
+            <div className="rounded min-h-screen w-full">
+                {isOpen ?
+                    <MobileNavigation /> : (
+                        <div>
+                            <Outlet />
+                            <Footer />
+                        </div>
+                    )}
             </div>
         </div>
     );

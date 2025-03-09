@@ -10,6 +10,9 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import Hamburger from 'hamburger-react'
+import { useHamburgerNavigation } from "./store"
+
 
 // this list will be changed to notifications received by the user later on in the application
 const notifications: { title: string; description: string; }[] = [
@@ -62,10 +65,17 @@ const settings: { title: string; description: string, to: string }[] = [
     }
 ]
 
+// state to toggle open and close of the navigation modal for mobile screens
+
 function Header() {
+    const { isOpen, setOpen } = useHamburgerNavigation();
+    function handleOpenModal() {
+        setOpen(!isOpen);
+    }
+
     return (
-        <div className="">
-            <NavigationMenu className="">
+        <div className="flex sm:justify-center sm:items-center">
+            <NavigationMenu className="sm:flex hidden">
                 <NavigationMenuList className="">
                     <NavigationMenuItem>
                         <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
@@ -180,6 +190,10 @@ function Header() {
 
                 </NavigationMenuList>
             </NavigationMenu>
+
+            <button className="flex sm:hidden" onClick={handleOpenModal}>
+                <Hamburger size={28} />
+            </button>
         </div>
     )
 }

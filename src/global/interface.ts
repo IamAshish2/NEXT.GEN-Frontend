@@ -14,3 +14,8 @@ export interface IGlobalStore {
     setToasterData: (data:IToasterData) => void,
     closeToasterData: () => void
   }
+
+export interface IHamburgerStateStore {
+  isOpen:boolean,
+  setOpen : (open:boolean) => void
+}

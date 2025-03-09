@@ -33,3 +33,9 @@ export const axios_auth_form = axios.create({
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
   });
+
+export const BusinessName = 'NEXT.GEN'
+export const twitterUrl = "https://twitter.com"
+export const facebookUrl = "https://facebook.com"
+export const instagramUrl = "https://instagram.com"
+export const whatsAppUrl = "https://whatsapp.com"
