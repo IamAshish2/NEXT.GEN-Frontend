@@ -9,7 +9,7 @@ const PublicLayout = () => {
     const { isOpen } = useHamburgerNavigation();
 
     return (
-        <div className="flex flex-col items-center justify-between p-6 ">
+        <div className="bg-black flex flex-col items-center justify-between p-6 ">
             {/* Header styles for larger screens */}
             <div className="w-full">
                 <Header />
