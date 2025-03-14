@@ -4,7 +4,8 @@ import { IToasterData } from "./components/toaster/interface";
 
 export const useGlobalStore = create<IGlobalStore>((set) => ({
     user: {
-          token: ""
+          token: "",
+          userId: undefined
         },
     setUser: (data: {token:string} ) => {
       set((state: IGlobalStore) => ({

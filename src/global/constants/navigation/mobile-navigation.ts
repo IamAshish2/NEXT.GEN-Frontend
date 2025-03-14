@@ -1,7 +1,7 @@
 const navigation = [
     {
         id:1,
-        to:"/user-home",
+        to:"/",
         name:'Home'
     },
     {

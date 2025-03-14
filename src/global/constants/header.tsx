@@ -10,8 +10,8 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import Hamburger from 'hamburger-react'
 import { useHamburgerNavigation } from "./store"
+import { Menu } from "lucide-react"
 
 
 // this list will be changed to notifications received by the user later on in the application
@@ -188,11 +188,19 @@ function Header() {
                         </Link>
                     </NavigationMenuItem>
 
+                    <NavigationMenuItem>
+                        <Link to="/login">
+                            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                                Login
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+
                 </NavigationMenuList>
             </NavigationMenu>
 
             <button className="flex sm:hidden" onClick={handleOpenModal}>
-                <Hamburger size={28} />
+                <Menu size={32} />
             </button>
         </div>
     )

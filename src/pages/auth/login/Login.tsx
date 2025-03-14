@@ -43,7 +43,10 @@ const Login = () => {
     useEffect(() => {
         if (user.token) {
             localStorage.setItem("token", user.token);
-            navigate("/user-home");
+            if (user.userId !== undefined) {
+                localStorage.setItem("userId", user.userId.toString()); // Convert number to string
+            }
+            navigate("/");
         }
     }, [user, navigate])
 

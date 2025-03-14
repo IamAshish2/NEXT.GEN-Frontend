@@ -5,6 +5,7 @@ export interface IGlobalStore {
     // setActiveUrl: (url: string) => void;
     user: {
     //   role: string;
+      userId: number | undefined;
       token: string;
     //   name:string
     };

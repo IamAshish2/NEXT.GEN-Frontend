@@ -45,7 +45,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className="border-gray-700 mt-10 pt-6 md:flex md:justify-center md:items-center text-sm text-center">
+            <div className="border-gray-700 mt-3 pt-3 md:flex md:justify-center md:items-center text-sm text-center">
                 <p className="text-base md:text-sm ">
                     &copy; {new Date().getFullYear()} NEXT.GEN  All rights reserved.
                 </p>

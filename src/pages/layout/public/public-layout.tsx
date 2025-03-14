@@ -20,7 +20,7 @@ const PublicLayout = () => {
                     <MobileNavigation /> : (
                         <div>
                             <Outlet />
-                            <Footer />
+                            {/* <Footer /> */}
                         </div>
                     )}
             </div>
