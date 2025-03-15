@@ -1,0 +1,89 @@
+import { Users, Image } from 'lucide-react';
+import { useCreateGroupStore } from './store';
+import { axios_no_auth } from '@/global/config';
+
+export default function CreateGroupForm() {
+    // add the file and category of the group to the data and the backend
+    const { data, setData, clearData } = useCreateGroupStore();
+
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        const queryData = {
+            groupName: data.groupName,
+            description: data.description,
+            // store the userId in httponly cookie
+            CreatorId: Number(localStorage.getItem('userId'))
+        }
+        console.log(queryData);
+        // it works for now
+        const res = await axios_no_auth.post('/groups/create-group', queryData);
+        console.log(res);
+
+    }
+
+    return (
+        <div className="p-8 rounded-xl shadow-lg max-w-md w-full">
+            <h2 className="text-2xl font-bold text-white mb-6">Create Study Group</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Group Name</label>
+                    <input
+                        type="text"
+                        value={data.groupName as string}
+                        onChange={(e) => { setData({ ...data, groupName: e.target.value }) }}
+                        className="w-full px-4 py-4 border border-gray-600 rounded-lg focus:ring-2  focus:ring-orange-500 focus:outline-none"
+                        placeholder="Enter group name"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                    <textarea
+                        onChange={(e) => { setData({ ...data, description: e.target.value }) }}
+                        value={data.description as string}
+                        className="w-full px-4 py-2 border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none"
+                        rows={4}
+                        placeholder="Describe your group"
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
+                    <select className="w-full px-4 py-4  border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                        <option className='bg-black' value="">Select a category</option>
+                        <option className='bg-black' value="mathematics">Mathematics</option>
+                        <option className='bg-black' value="science">Science</option>
+                        <option className='bg-black' value="programming">Programming</option>
+                        <option className='bg-black' value="languages">Languages</option>
+                    </select>
+                </div>
+
+                <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col w-full h-32 border-2 border-dashed border-gray-800 rounded-lg cursor-pointer">
+                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            <Image className="mt-3 hover:scale-110 text-gray-400" size={30} />
+                            <p className="pt-1 text-sm text-gray-500">
+                                {"Drag and drop or click to select a file"}
+                            </p>
+                        </div>
+                        <input
+                            id="file"
+                            type="file"
+                            className="hidden"
+                        // onChange={handleFileChange}
+                        // required
+                        />
+                    </label>
+                </div>
+
+                <button
+                    type="submit"
+                    className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-colors duration-300 flex items-center justify-center gap-2"
+                >
+                    <Users size={20} />
+                    Create Group
+                </button>
+            </form>
+        </div>
+    );
+}

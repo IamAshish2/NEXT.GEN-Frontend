@@ -3,12 +3,14 @@ import { useUploadPostStore } from './store';
 import { createPost } from '@/api/api';
 import uploadImagesToCloudinary from '@/api/cloudinary/upload-api';
 import { Blob } from 'buffer';
+import { useNavigate } from 'react-router-dom';
 
 const UploadPost = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     // state for keeping track of the images in the current time
     const [images, setImages] = useState<(File | string | Blob)[]>([]);
     const { data, setData, clearForm, previewUrl, setPreviewUrl } = useUploadPostStore();
+    const navigate = useNavigate();
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = e.target.files?.[0];
@@ -40,12 +42,12 @@ const UploadPost = () => {
                 ...data, imageUrls: url, UserId: userId
             }
 
-            console.log(postData);
-
             const res = await createPost(postData);
-            console.log(res);
+            if (res.status == 201)
+                navigate('/');
 
         } catch (error) {
+            console.log(error);
 
         }
         clearForm();

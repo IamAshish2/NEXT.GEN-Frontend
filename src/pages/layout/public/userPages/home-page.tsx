@@ -1,4 +1,4 @@
-import PostCard from "./upload-post/PostCard"
+import PostCard from "./home-page-post/PostCard"
 
 const HomePage = () => {
     return (
