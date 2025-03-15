@@ -1,17 +1,17 @@
 const navigation = [
     {
         id:1,
-        to:"/",
+        to:"/user-home",
         name:'Home'
     },
     {
         id:2,
-        to:"/groups",
+        to:"/user-groups",
         name:'Groups'
     },
     {
         id:3,
-        to:"/friends",
+        to:"/user-friends",
         name:'Friends'
     },
     {
@@ -26,7 +26,7 @@ const navigation = [
     },
     {
         id:6,
-        to:"/Profile",
+        to:"/user-profile",
         name:'Profile'
     }
 ]

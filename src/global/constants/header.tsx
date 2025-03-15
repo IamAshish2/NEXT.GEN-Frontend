@@ -148,7 +148,7 @@ function Header() {
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <Link to="/">
+                        <Link to="/user-home">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Home
                             </NavigationMenuLink>
@@ -173,7 +173,7 @@ function Header() {
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <Link to="/groups">
+                        <Link to="/user-groups">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Groups
                             </NavigationMenuLink>
@@ -181,7 +181,7 @@ function Header() {
                     </NavigationMenuItem>
 
                     <NavigationMenuItem>
-                        <Link to="/profile">
+                        <Link to="/user-profile">
                             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                 Profile
                             </NavigationMenuLink>
