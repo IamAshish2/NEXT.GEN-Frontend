@@ -22,7 +22,7 @@ export default function CreateGroupForm() {
     }
 
     return (
-        <div className="p-8 rounded-xl shadow-lg max-w-md w-full">
+        <div className="ml-auto  mr-auto p-8 rounded-xl shadow-lg max-w-md w-full border border-gray-800">
             <h2 className="text-2xl font-bold text-white mb-6">Create Study Group</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>

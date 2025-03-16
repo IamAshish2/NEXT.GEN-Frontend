@@ -35,8 +35,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
 
           {/* After a user logs in */}
+          <Route index element={<LandingPage />} />
           <Route path="/" element={<PublicLayout />} >
-            <Route index element={<LandingPage />} />
             <Route path="/user-home" element={<HomePage />} />
             <Route path="/upload-post" element={<UploadPost />} />
             <Route path="/user-profile" element={<Profile />} />

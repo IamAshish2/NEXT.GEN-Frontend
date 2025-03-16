@@ -3,52 +3,107 @@ import SocialIcons from "../components/social-icons";
 
 const Footer = () => {
     return (
-        <footer className=" text-gray-300 py-10 px-6 md:px-12 lg:px-20 border-t-2 border-gray-700">
-            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8"> */}
-            <div className="flex flex-col md:flex-row justify-between align-middle items-center px-4 py-4 gap-6">
-                {/* Column 1 */}
-                <div className="w-96 text-center md:text-start">
-                    <h2 className="font-bold mb-4 text-3xl md:text-4xl">{BusinessName}</h2>
-                    <p className="text-base text-gray-400">
-                        Your next <span className=" text-[#E26003]">study</span> motivation that helps you meet like-minded learners with similar
-                        {" "}<span className=" text-[#E26003]">interests</span> {""} , <span className=" text-[#E26003]">motivation</span> , <span className=" text-[#E26003]"></span> and <span className=" text-[#E26003]">expand</span> your reach.
-                    </p>
-                </div>
+        <footer className="bg-white border-t border-gray-400 pt-16 pb-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Main Footer Content */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+                    {/* Brand Column */}
+                    <div className="md:col-span-5">
+                        <div className="space-y-6">
+                            <h2 className="text-2xl font-bold text-black">
+                                NEXT<span className="text-[#E26300]">.GEN</span>
+                            </h2>
+                            <p className="text-gray-600 leading-relaxed max-w-md">
+                                Your next {""}
+                                <span className="text-[#E26300]"> learning </span>{""}
+                                journey begins here. Connect with{""}
+                                <span className="text-[#E26300]"> passionate </span>{""}
+                                learners, share
+                                <span className="text-[#E26300]"> knowledge</span>, and{""}
+                                <span className="text-[#E26300]"> grow </span>{""}
+                                together.
+                            </p>
+                            
+                            {/* Live Status */}
+                            <div className="flex items-center space-x-3 text-sm text-gray-500">
+                                <span className="flex items-center">
+                                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>{""}
+                                    2,847 students online
+                                </span>
+                                <span className="text-gray-300">•</span>
+                                <span>{new Date("2025-03-16 13:57:13").toLocaleTimeString()} UTC</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div className="md:w-72 md:flex md:flex-col md:justify-center md:items-center hidden">
-                    <p className="text-2xl text-gray-300 font-semibold mb-4">Contact us on Socials</p>
-                    <SocialIcons />
-                </div>
+                    {/* Quick Links */}
+                    <div className="md:col-span-3">
+                        <h3 className="text-black font-semibold mb-6">Quick Links</h3>
+                        <ul className="space-y-4">
+                            {['Communities', 'Courses', 'Discussions', 'Resources', 'Help Center'].map((item) => (
+                                <li key={item}>
+                                    <button className="text-gray-500 hover:text-[#E26300] transition-colors">
+                                        {item}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                {/* Column 3 */}
-                <div className="">
-                    <h3 className="text-lg text-center font-bold text-gray-100 mb-4">
-                        Stay Connected
-                    </h3>
-                    <form className="space-y-4">
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="w-full px-4 py-2 bg-black border border-gray-700 rounded text-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        />
-                        <button
-                            type="submit"
-                            className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded transition"
-                        >
-                            Subscribe
-                        </button>
-                    </form>
+                    {/* Social Column */}
+                    <div className="md:col-span-4">
+                        <div className="space-y-6">
+                            <h3 className="text-black font-semibold">Stay Connected</h3>
+                            <div className="space-y-4">
+                                <div className="relative">
+                                    <input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg
+                                                 text-gray-900 placeholder-gray-500 focus:outline-none 
+                                                 focus:border-[#E26300] focus:ring-1 focus:ring-[#E26300]
+                                                 transition-colors"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="w-full px-4 py-3 bg-black text-white rounded-lg
+                                             hover:bg-[#E26300] transition-colors"
+                                >
+                                    Subscribe to Newsletter
+                                </button>
+                            </div>
 
-                    <div className="md:hidden w-80 flex justify-center items-center">
-                        <SocialIcons />
+                            <div className="pt-6 border-t border-gray-100">
+                                <h4 className="text-sm text-gray-600 mb-4">Follow us on social media</h4>
+                                <div className="flex space-x-4">
+                                    <SocialIcons />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="border-gray-700 mt-3 pt-3 md:flex md:justify-center md:items-center text-sm text-center">
-                <p className="text-base md:text-sm ">
-                    &copy; {new Date().getFullYear()} NEXT.GEN  All rights reserved.
-                </p>
+                {/* Bottom Bar */}
+                <div className="mt-16 pt-8 border-t border-gray-100">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div className="text-sm text-gray-500">
+                            &copy; {new Date().getFullYear()} learnHub. All rights reserved.
+                        </div>
+                        
+                        {/* Bottom Links */}
+                        <div className="flex items-center space-x-6">
+                            {['Privacy Policy', 'Terms of Service', 'Cookie Settings'].map((item) => (
+                                <button 
+                                    key={item}
+                                    className="text-sm text-gray-500 hover:text-[#E26300] transition-colors"
+                                >
+                                    {item}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </footer>
     );

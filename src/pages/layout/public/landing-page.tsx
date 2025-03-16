@@ -1,128 +1,330 @@
+import Footer from '@/global/constants/footer';
 import {
-    BookOpen,
+    ArrowRight,
+    Search,
+    Menu,
+    X,
+    ChevronRight,
+    Clock,
+    Star,
     Users,
-    Compass,
-    Code,
-    Palette,
-    Music,
-    Brain,
-    ChevronRight
+    Terminal
 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function LandingPage() {
-    const categories = [
-        { icon: <Code className="w-6 h-6" />, name: 'Programming', count: '2.4k resources' },
-        { icon: <Palette className="w-6 h-6" />, name: 'Design', count: '1.8k resources' },
-        { icon: <Brain className="w-6 h-6" />, name: 'Data Science', count: '1.2k resources' },
-        { icon: <Music className="w-6 h-6" />, name: 'Music', count: '950 resources' },
-    ];
-
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
 
+    const courses = [
+        {
+            title: "Advanced System Design",
+            badge: "Most Popular",
+            level: "Advanced",
+            duration: "12 weeks",
+            enrolled: "2.8k students",
+            rating: "4.9",
+            icon: <Terminal className="w-6 h-6" />
+        },
+        {
+            title: "Full-Stack Engineering",
+            badge: "New",
+            level: "Intermediate",
+            duration: "10 weeks",
+            enrolled: "1.5k students",
+            rating: "4.8",
+            icon: <Terminal className="w-6 h-6" />
+        },
+        {
+            title: "Cloud Architecture",
+            badge: "Trending",
+            level: "Advanced",
+            duration: "8 weeks",
+            enrolled: "2.1k students",
+            rating: "4.7",
+            icon: <Terminal className="w-6 h-6" />
+        }
+    ];
+
     return (
-        <div className="min-h-screen">
-            {/* Navigation */}
-            <nav className="bg-black border-b border-gray-800">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex justify-between items-center">
-                        <div className="flex items-center space-x-2">
-                            <Compass className="w-8 h-8 text-orange-500" />
-                            <span className="text-2xl font-bold text-white">NEXT.GEN</span>
+        <div className="min-h-screen bg-white">
+            <nav className="fixed w-full z-50 bg-white border-b border-gray-100">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="h-20 flex items-center justify-between">
+                        {/* Logo */}
+                        <div className="flex items-center">
+                            <span className="text-2xl font-bold text-black">
+                                NEXT<span className="text-[#E26300]">.GEN</span>
+                            </span>
                         </div>
-                        <div className="flex space-x-6">
-                            <button onClick={() => { navigate('/login') }} className="text-gray-300 hover:scale-110 hover:underline hover:text-orange-500">Sign In</button>
-                            <button onClick={() => { navigate('/signup') }} className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition">
-                                Get Started
-                            </button>
+
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex items-center space-x-8">
+                            {/* Search */}
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Search communities, courses, discussions..."
+                                    className="w-80 pl-12 pr-4 py-2 rounded-full bg-gray-50 border border-gray-200 
+                                 focus:border-[#E26300] focus:outline-none focus:ring-1 focus:ring-[#E26300]"
+                                />
+                            </div>
+
+                            {/* Navigation Links */}
+                            <div className="flex items-center space-x-6">
+                                <button className="text-gray-600 hover:text-[#E26300] transition-colors">
+                                    Communities
+                                </button>
+                                <button className="text-gray-600 hover:text-[#E26300] transition-colors">
+                                    Courses
+                                </button>
+                                <button className="text-gray-600 hover:text-[#E26300] transition-colors">
+                                    Discussions
+                                </button>
+                                <button className="text-gray-600 hover:text-[#E26300] transition-colors">
+                                    Resources
+                                </button>
+                            </div>
+
+                            {/* Auth Buttons */}
+                            <div className="flex items-center space-x-4">
+                                <button
+                                    onClick={() => navigate('/login')}
+                                    className="px-6 py-2 text-gray-700 hover:text-[#E26300] transition-colors"
+                                >
+                                    Sign in
+                                </button>
+                                <button
+                                    onClick={() => navigate('/signup')}
+                                    className="px-6 py-2 bg-black text-white rounded-full 
+                                 hover:bg-[#E26300] transition-colors"
+                                >
+                                    Join Community
+                                </button>
+                            </div>
                         </div>
+
+                        {/* Mobile menu button */}
+                        <button
+                            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        >
+                            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                        </button>
                     </div>
+
+                    {/* Mobile Menu */}
+                    {isMenuOpen && (
+                        <div className="md:hidden border-t border-gray-100 py-4">
+                            <div className="space-y-4">
+                                <div className="px-4">
+                                    <div className="relative">
+                                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                                        <input
+                                            type="text"
+                                            placeholder="Search..."
+                                            className="w-full pl-12 pr-4 py-2 rounded-full bg-gray-50 border border-gray-200"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="space-y-2">
+                                    {['Communities', 'Courses', 'Discussions', 'Resources'].map((item) => (
+                                        <button
+                                            key={item}
+                                            className="block w-full px-4 py-2 text-left text-gray-600 hover:text-[#E26300] 
+                                         hover:bg-gray-50 transition-colors"
+                                        >
+                                            {item}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="px-4 space-y-2">
+                                    <button
+                                        onClick={() => navigate('/login')}
+                                        className="block w-full px-6 py-2 text-gray-700 hover:text-[#E26300] 
+                                     transition-colors text-center"
+                                    >
+                                        Sign in
+                                    </button>
+                                    <button
+                                        onClick={() => navigate('/signup')}
+                                        className="block w-full px-6 py-2 bg-black text-white rounded-full 
+                                     hover:bg-[#E26300] transition-colors text-center"
+                                    >
+                                        Join Community
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div className="text-center">
-                    <h1 className="text-5xl font-bold text-white mb-6">
-                        Learn, Connect, and Grow Together
-                    </h1>
-                    <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-                        Join a community of passionate learners. Access curated resources and connect
-                        with peers who share your interests and career aspirations.
-                    </p>
-                    <div className="flex justify-center space-x-4">
-                        <button onClick={() => { navigate('/signup') }} className="bg-orange-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-orange-600 transition flex items-center">
-                            Start Learning <ChevronRight className="ml-2 w-5 h-5" />
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* Features Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div className="grid md:grid-cols-2 gap-12">
-                    <div className="bg-black p-8 rounded-2xl border border-gray-700">
-                        <div className=" w-12 h-12 rounded-lg flex items-center justify-center mb-6">
-                            <BookOpen className="w-6 h-6 text-orange-500" />
-                        </div>
-                        <h3 className="text-2xl font-bold mb-4">Curated Learning Paths</h3>
-                        <p className="">
-                            Access carefully selected resources organized by topic. Follow structured
-                            learning paths designed to take you from beginner to expert.
-                        </p>
-                    </div>
-                    <div className="bg-black p-8 rounded-2xl border border-gray-700">
-                        <div className="w-12 h-12 rounded-lg flex items-center justify-center mb-6">
-                            <Users className="w-6 h-6 text-orange-500" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-white mb-4">Connect with Peers</h3>
-                        <p className="text-gray-300">
-                            Find and connect with other learners who share your interests. Build a
-                            network that supports your growth and career development.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* Categories Section */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <h2 className="text-3xl font-bold text-white mb-12 text-center">
-                    Explore Learning Categories
-                </h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {categories.map((category, index) => (
-                        <div key={index} className="bg-black p-6 rounded-xl border border-gray-700 hover:border-orange-500 transition cursor-pointer">
-                            <div className="flex items-center space-x-4">
-                                <div className="bg-black p-3 rounded-lg">
-                                    {category.icon}
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold text-white">{category.name}</h3>
-                                    <p className="text-sm text-gray-400">{category.count}</p>
-                                </div>
+            <section className="pt-32 pb-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="max-w-4xl mx-auto text-center">
+                        {/* Live Stats Badge */}
+                        <div className="inline-flex items-center bg-gray-50 rounded-full px-4 py-2 mb-8">
+                            <div className="flex items-center">
+                                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
+                                <span className="text-sm text-gray-600 mr-2">Online now:</span>
+                                <span className="text-sm font-medium">2,847 students</span>
+                                <span className="mx-2 text-gray-300">•</span>
+                                <span className="text-sm text-gray-600">{new Date("2025-03-16 13:49:58").toLocaleTimeString()} UTC</span>
                             </div>
                         </div>
-                    ))}
+
+                        {/* Hero Title */}
+                        <h1 className="text-5xl sm:text-6xl font-bold text-black mb-6 leading-tight">
+                            Where students
+                            <span className="text-[#E26300]"> learn together</span>
+                            <br />
+                            and grow together
+                        </h1>
+
+                        {/* Hero Description */}
+                        <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+                            Join our vibrant community of learners. Share knowledge, collaborate on projects,
+                            and accelerate your learning journey with like-minded peers.
+                        </p>
+
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                            <button
+                                onClick={() => navigate('/signup')}
+                                className="group px-8 py-4 bg-[#E26300] text-white rounded-full 
+                             hover:bg-black transition-all duration-300"
+                            >
+                                Join the Community
+                                <ArrowRight className="inline ml-2 w-4 h-4 transform 
+                                        group-hover:translate-x-1 transition-transform" />
+                            </button>
+                            <button className="px-8 py-4 text-black rounded-full border border-gray-200 
+                                 hover:border-[#E26300] transition-colors"
+                            >
+                                Explore Discussions
+                            </button>
+                        </div>
+
+                        {/* Community Stats */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16">
+                            {[
+                                { number: "50K+", label: "Active Students" },
+                                { number: "1000+", label: "Daily Discussions" },
+                                { number: "200+", label: "Study Groups" },
+                                { number: "24/7", label: "Community Support" }
+                            ].map((stat, index) => (
+                                <div key={index} className="text-center">
+                                    <div className="text-3xl font-bold text-black mb-1">{stat.number}</div>
+                                    <div className="text-sm text-gray-500">{stat.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            {/* Active Communities Section */}
+            <section className="py-20 bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-bold text-black mb-4">Active Communities</h2>
+                        <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                            Join discussions, share knowledge, and connect with peers in your field
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            {
+                                name: "Web Development",
+                                members: "15.2K members",
+                                topics: "2.1K topics",
+                                activity: "Very Active",
+                                description: "Frontend, Backend, DevOps, and everything in between"
+                            },
+                            {
+                                name: "Data Science & AI",
+                                members: "12.8K members",
+                                topics: "1.8K topics",
+                                activity: "Active",
+                                description: "Machine Learning, Data Analysis, and AI applications"
+                            },
+                            {
+                                name: "Mobile Development",
+                                members: "10.5K members",
+                                topics: "1.5K topics",
+                                activity: "Very Active",
+                                description: "iOS, Android, and Cross-platform development"
+                            }
+                        ].map((community, index) => (
+                            <div
+                                key={index}
+                                className="group bg-white rounded-2xl p-8 border border-gray-100 
+                             hover:border-[#E26300] transition-all duration-300"
+                            >
+                                <div className="flex items-start justify-between mb-4">
+                                    <div>
+                                        <h3 className="text-xl font-semibold text-black group-hover:text-[#E26300] 
+                                         transition-colors">
+                                            {community.name}
+                                        </h3>
+                                        <p className="text-gray-600 text-sm mt-1">{community.description}</p>
+                                    </div>
+                                    <span className={`text-xs px-3 py-1 rounded-full 
+                                     ${community.activity === 'Very Active'
+                                            ? 'bg-green-100 text-green-600'
+                                            : 'bg-blue-100 text-blue-600'}`}>
+                                        {community.activity}
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center justify-between text-sm text-gray-500">
+                                    <span>{community.members}</span>
+                                    <span>•</span>
+                                    <span>{community.topics}</span>
+                                </div>
+
+                                <button className="mt-6 w-full py-2 border border-gray-200 rounded-lg text-gray-600
+                                     hover:border-[#E26300] hover:text-[#E26300] transition-colors">
+                                    Join Community
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
             {/* CTA Section */}
-            <div className="bg-black mt-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h2 className="text-3xl font-bold text-white mb-4">
-                            Ready to Start Your Learning Journey?
-                        </h2>
-                        <p className="text-orange-50 mb-8 max-w-2xl mx-auto">
-                            Join thousands of learners already using next.gen to achieve their goals
-                            and connect with like-minded peers.
-                        </p>
-                        <button onClick={() => { navigate('/signup') }} className="bg-orange-500 text-white sm:px-8 sm:py-4 py-3 px-6 rounded-lg text-lg font-semibold hover:bg-white hover:text-orange-500 transition">
-                            Create Free Account
+            <section className="bg-white text-black py-20">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 className="text-3xl font-bold mb-8">
+                        Ready to join our learning community?
+                    </h2>
+                    <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+                        Connect with {parseInt(courses[0].enrolled)}+ students, join engaging discussions,
+                        and accelerate your learning journey together.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                        <button
+                            onClick={() => navigate('/signup')}
+                            className="px-8 py-4 bg-[#E26300] rounded-full 
+                         hover:bg-black hover:text-white transition-all duration-300"
+                        >
+                            Join Free Today
+                        </button>
+                        <button className="px-8 py-4 border border-white/20 rounded-full 
+                             bg-black text-white hover:bg-black hover transition-all duration-300"
+                        >
+                            Browse Communities
                         </button>
                     </div>
                 </div>
-            </div>
+            </section>
+            <Footer />
         </div>
     );
 }
