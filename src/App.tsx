@@ -41,9 +41,10 @@ function App() {
             <Route path="/upload-post" element={<UploadPost />} />
             <Route path="/user-profile" element={<Profile />} />
             <Route path="/user-groups" element={<Groups />} />
-            <Route path="/user-groups/details/:id" element={<GroupDetails />} />
+            <Route path="/user-groups/details/:userName" element={<GroupDetails />} />
             <Route path="/user/create-group" element={<CreateGroupForm />} />
             <Route path="/user-friends" element={<FriendsPage />} />
+            <Route path="/user-home/upload-post" element={<UploadPost />} />
             <Route path="/study-materials" element={<StudyMaterialCard
               title="Advanced Mathematics"
               category="Mathematics"

@@ -11,5 +11,9 @@ export const createPost = async (data:IUploadPostFromData) => {
 export const getUserDetails = async(userName:string | undefined) : Promise<IUserData> => {
     const res = await axios_no_auth.get(`User/get-user-by-name/${userName}`);
     return res.data
-    
+}
+
+export const getAllGroups = async() => {
+    const res = await axios_no_auth.get('Groups/get-all-groups');
+    return res.data
 }

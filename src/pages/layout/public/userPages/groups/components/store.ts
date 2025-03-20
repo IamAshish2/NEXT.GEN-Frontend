@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { ICreateGroupData, ICreateGroupDataStore } from "./interface";
 
 export const useCreateGroupStore = create<ICreateGroupDataStore>((set) => ({
-    data:{groupName:"",description:""},
+    data:{groupName:"",description:"", category:"",image:""},
 
     setData: (data:ICreateGroupData) => {
         set((state:ICreateGroupDataStore) => ({
@@ -11,6 +11,6 @@ export const useCreateGroupStore = create<ICreateGroupDataStore>((set) => ({
     },
     
     clearData: () => {
-        set({data:{groupName:"",description:""}})
+        set({data:{groupName:"",description:"",category:"",image:""}})
     }
 }));

@@ -24,7 +24,7 @@ export const useSignInStore = create<ISignInStore>((set,get) => ({
         try {
             const res = await axios_no_auth.post('Auth/login',get().signInData);
             if(res.status === 200 && res.data.token){
-                return {token: res?.data?.token};
+                return {token: res?.data?.token,userName: res?.data?.userName};
             }
             return false;
         } catch (error) {
@@ -32,6 +32,4 @@ export const useSignInStore = create<ISignInStore>((set,get) => ({
             return false;
         }
     }
-
-
 }));

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useUploadPostStore } from './store';
 import { createPost } from '@/api/api';
-import uploadImagesToCloudinary from '@/api/cloudinary/upload-api';
 import { Blob } from 'buffer';
 import { useNavigate } from 'react-router-dom';
+import { uploadImagesToCloudinary } from '@/api/cloudinary/upload-api';
 
 const UploadPost = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -35,11 +35,11 @@ const UploadPost = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const userId = localStorage.getItem('userId');
+            const userName = localStorage.getItem('userName');
             const url = await uploadImagesToCloudinary(images as File[]);
 
             const postData = {
-                ...data, imageUrls: url, UserId: userId
+                ...data, imageUrls: url, userName: userName
             }
 
             const res = await createPost(postData);
@@ -54,7 +54,7 @@ const UploadPost = () => {
     }
     return (
         <div className="flex flex-col items-center justify-center w-full min-h-[88vh] py-8 px-4">
-            <div className="w-full max-w-md bg-black rounded-lg shadow-md p-6">
+            <div className="w-full max-w-md border rounded-lg shadow-md p-6">
                 <h2 className="text-2xl font-semibold mb-6 text-center">Create New Post</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -122,7 +122,7 @@ const UploadPost = () => {
                                         // src={previewUrl as string}
                                         src={typeof image === 'string'
                                             ? image
-                                            : URL.createObjectURL(image)
+                                            : URL.createObjectURL(image as File)
                                         }
                                         alt="Preview"
                                         className="max-h-48 rounded-lg object-contain"

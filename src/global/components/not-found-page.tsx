@@ -12,7 +12,7 @@ export default function NotFoundPage() {
             <h1 className="text-6xl font-bold text-white">404</h1>
             <p className="text-xl mt-2">Oops! The page you're looking for doesn't exist.</p>
             <Link
-                to="/"
+                to="/user-home"
                 className="mt-6  text-white underline rounded-lg shadow-md hover:text-orange-500 transition"
             >
                 Go Back Home

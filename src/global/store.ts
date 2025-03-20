@@ -1,13 +1,14 @@
 import { create } from "zustand";
-import { IGlobalStore } from "./interface";
+import { IGlobalStore, IUserData } from "./interface";
 import { IToasterData } from "./components/toaster/interface";
 
 export const useGlobalStore = create<IGlobalStore>((set) => ({
     user: {
           token: "",
-          userId: undefined
+          userName: ""
         },
-    setUser: (data: {token:string} ) => {
+
+    setUser: (data: IUserData ) => {
       set((state: IGlobalStore) => ({
         user: {
           ...state.user,

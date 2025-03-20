@@ -1,24 +1,39 @@
 import { Users, Image } from 'lucide-react';
 import { useCreateGroupStore } from './store';
+import { uploadImageToCloudinary } from '@/api/cloudinary/upload-api';
 import { axios_no_auth } from '@/global/config';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateGroupForm() {
     // add the file and category of the group to the data and the backend
     const { data, setData, clearData } = useCreateGroupStore();
+    const navigate = useNavigate();
+
+
+    function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const image = e.target?.files?.[0];
+        if (image) {
+            setData({ ...data, image })
+            console.log(image);
+        }
+    }
 
     async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        const queryData = {
-            groupName: data.groupName,
-            description: data.description,
-            // store the userId in httponly cookie
-            CreatorId: Number(localStorage.getItem('userId'))
-        }
-        console.log(queryData);
-        // it works for now
-        const res = await axios_no_auth.post('/groups/create-group', queryData);
-        console.log(res);
 
+        e.preventDefault();
+        const userName = localStorage.getItem("userName");
+        const imageUrl = await uploadImageToCloudinary(data.image);
+
+        const queryData = {
+            ...data,
+            GroupImage: imageUrl,
+            CreatorName: userName,
+        }
+        const res = await axios_no_auth.post('/groups/create-group', queryData);
+        if (res.status == 201) {
+            navigate("/user-groups");
+            clearData();
+        }
     }
 
     return (
@@ -49,13 +64,13 @@ export default function CreateGroupForm() {
 
                 <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
-                    <select className="w-full px-4 py-4  border border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none">
-                        <option className='bg-black' value="">Select a category</option>
-                        <option className='bg-black' value="mathematics">Mathematics</option>
-                        <option className='bg-black' value="science">Science</option>
-                        <option className='bg-black' value="programming">Programming</option>
-                        <option className='bg-black' value="languages">Languages</option>
-                    </select>
+                    <input
+                        type="text"
+                        value={data.category as string}
+                        onChange={(e) => { setData({ ...data, category: e.target.value }) }}
+                        className="w-full px-4 py-4 border border-gray-600 rounded-lg focus:ring-2  focus:ring-orange-500 focus:outline-none"
+                        placeholder="Enter category of the group"
+                    />
                 </div>
 
                 <div className="flex items-center justify-center w-full">
@@ -70,11 +85,23 @@ export default function CreateGroupForm() {
                             id="file"
                             type="file"
                             className="hidden"
-                        // onChange={handleFileChange}
-                        // required
+                            onChange={handleFileChange}
                         />
                     </label>
                 </div>
+
+                <div className='flex items-center justify-center'>
+                    {
+                        data.image &&
+                        <img
+                            className='h-60 w-60'
+                            src={typeof data.image === 'string'
+                                ? data.image
+                                : URL.createObjectURL(data.image as File)
+                            } />
+                    }
+                </div>
+
 
                 <button
                     type="submit"

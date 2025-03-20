@@ -1,3 +1,4 @@
+import { IUserData } from "@/global/interface";
 import { ISignInData, ISignInDataError } from "./interface";
 
 export class LoginClass {
@@ -15,10 +16,8 @@ export class LoginClass {
         setSignInDataError : (signInDataError: ISignInDataError) => void ,
         clearSignInDataError: () => void,
         setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-        setUser: (data: {
-            token: string;
-        }) => void,
-        loginUser: () => Promise<false | {token: string}>,
+        setUser: (data: IUserData) => void,
+        loginUser: () => Promise<false | IUserData>,
     ) => {
 
         setLoading(true);
@@ -34,7 +33,8 @@ export class LoginClass {
             const res = await loginUser();
             if(res && Object.keys(res).length > 0){
                 setUser({
-                    token: res?.token
+                    token: res?.token,
+                    userName: res?.userName
                   });  
                   clearSignInData();
                   clearSignInDataError();

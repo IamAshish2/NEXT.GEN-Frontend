@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const uploadImagesToCloudinary = async (images: (File | string)[]) => {
+
+export const uploadImagesToCloudinary = async ( images: (File | string)[] ) => {
     const cloudName = import.meta.env.VITE_CLOUDNAME;
     const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET;
-
-    console.log(uploadPreset);
 
     const cloudinaryURL = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
@@ -34,4 +33,23 @@ const uploadImagesToCloudinary = async (images: (File | string)[]) => {
     }
 };
 
-export default uploadImagesToCloudinary
+
+export const uploadImageToCloudinary = async (image: File | string) => {
+    const cloudName = import.meta.env.VITE_CLOUDNAME;
+    const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET;
+
+    const cloudinaryURL = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+    try{
+        const formData = new FormData();
+        formData.append('file',image);
+        formData.append('upload_preset',uploadPreset);
+
+        const response = await axios.post(cloudinaryURL, formData);
+        return response.data.url;
+
+    }catch(err){
+        console.log("Error uploading to Cloudinary", err);
+        return ""
+    }
+}

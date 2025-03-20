@@ -1,3 +1,5 @@
+import { IUserData } from "@/global/interface";
+
 export type ISignInData = {
     email: string | FormDataEntryValue | null 
     userName: string;
@@ -18,10 +20,5 @@ export interface ISignInStore {
     signInDataError : ISignInDataError;
     setSignInDataError : (data: ISignInDataError) => void;
     clearSignInDataError : () => void;
-    signIn : () => Promise<false | {
-        // status: string,
-        token: string,
-        // role: string,
-        // name: string
-    }>
+    signIn : () => Promise<false | IUserData>
 }

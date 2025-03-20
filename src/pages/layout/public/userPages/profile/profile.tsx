@@ -8,41 +8,41 @@ import { useUserProfileStore } from "./store";
 import { useParams } from "react-router-dom";
 
 function Profile() {
-    // const [user, setUser] = useState({
-    //     name: "Ashish Karki",
-    //     title: "Computer Science Student",
-    //     location: "San Francisco, CA",
-    //     email: "alex.thompson@university.edu",
-    //     website: "alexthompson.dev",
-    //     bio: "Final year CS student passionate about web development and machine learning. Always eager to learn and collaborate on interesting projects.",
-    //     skills: ["React", "TypeScript", "Python", "Machine Learning", "Node.js"],
-    //     socials: {
-    //         github: "",
-    //         linkedin: "",
-    //         twitter: ""
-    //     },
-    //     stats: {
-    //         posts: 45,
-    //         groups: 8,
-    //         connections: 234
-    //     },
-    //     activities: [
-    //         {
-    //             id: 1,
-    //             type: "post",
-    //             title: "Implementing Authentication in React",
-    //             engagement: "23 likes • 12 comments",
-    //             time: "2 days ago"
-    //         },
-    //         {
-    //             id: 2,
-    //             type: "group",
-    //             title: "Joined Machine Learning Study Group",
-    //             engagement: "856 members",
-    //             time: "1 week ago"
-    //         }
-    //     ]
-    // });
+    const [user, setUser] = useState({
+        name: "Ashish Karki",
+        title: "Computer Science Student",
+        location: "San Francisco, CA",
+        email: "alex.thompson@university.edu",
+        website: "alexthompson.dev",
+        bio: "Final year CS student passionate about web development and machine learning. Always eager to learn and collaborate on interesting projects.",
+        skills: ["React", "TypeScript", "Python", "Machine Learning", "Node.js"],
+        socials: {
+            github: "",
+            linkedin: "",
+            twitter: ""
+        },
+        stats: {
+            posts: 45,
+            groups: 8,
+            connections: 234
+        },
+        activities: [
+            {
+                id: 1,
+                type: "post",
+                title: "Implementing Authentication in React",
+                engagement: "23 likes • 12 comments",
+                time: "2 days ago"
+            },
+            {
+                id: 2,
+                type: "group",
+                title: "Joined Machine Learning Study Group",
+                engagement: "856 members",
+                time: "1 week ago"
+            }
+        ]
+    });
 
     // State for edit profile modal
 
@@ -158,7 +158,7 @@ function Profile() {
                             </div>
 
                             {/* socials section */}
-                            <div className="mt-4 flex space-x-3">
+                            <div className="mt-4 flex flex-col space-x-3">
                                 {data.socials.length > 0 && data.socials.map((link) => (
                                     <div key={link} className="flex items-center text-gray-600">
                                         <LinkIcon size={16} className="mr-2" />
@@ -204,9 +204,9 @@ function Profile() {
             </div>
 
             {/* Activity Feed */}
-            {/* <div className="rounded-xl p-6">
+            <div className="rounded-xl p-6">
                 <h2 className="text-xl font-semibold mb-6">Recent Activity</h2>
-                <div className="space-y-6">
+                {/* <div className="space-y-6">
                     {user.activities.map(activity => (
                         <div
                             key={activity.id}
@@ -226,8 +226,8 @@ function Profile() {
                             </div>
                         </div>
                     ))}
-                </div>
-            </div> */}
+                </div> */}
+            </div>
 
             {/* Edit Profile Modal */}
             {showEditModal && (

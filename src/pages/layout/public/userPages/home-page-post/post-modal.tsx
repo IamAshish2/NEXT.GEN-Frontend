@@ -1,7 +1,9 @@
 import { Clock, File, Images, Star, TrendingUp } from "lucide-react";
 import PostCard from "./PostCard";
+import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
+    const navigate = useNavigate();
 
     return (
         <div className="max-w-3xl mx-auto p-6">
@@ -42,25 +44,24 @@ function CreatePost() {
                     />
                     <button
                         className="flex-1 h-12 px-4 bg-gray-50 rounded-lg border border-gray-200
-                              text-gray-500 hover:border-[#E26300] hover:bg-gray-50/50
-                              transition-all text-left"
-                        onClick={() => {/* Open create post modal */ }}
+                        text-gray-500 hover:border-[#E26300] hover:bg-gray-50/50
+                        transition-all text-left"
+                        onClick={() => { navigate('/user-home/upload-post') }}
                     >
                         Create Post...
                     </button>
                     <div className="flex gap-2">
-                        <button className="p-3 rounded-lg text-gray-500 hover:text-[#E26300] 
+                        <button onClick={() => { navigate('/user-home/upload-post') }} className="p-3 rounded-lg text-gray-500 hover:text-[#E26300] 
                                       hover:bg-[#E26300]/5 transition-colors">
                             <Images size={20} />
                         </button>
-                        <button className="p-3 rounded-lg text-gray-500 hover:text-[#E26300] 
+                        <button onClick={() => { navigate('/user-home/upload-post') }} className="p-3 rounded-lg text-gray-500 hover:text-[#E26300] 
                                       hover:bg-[#E26300]/5 transition-colors">
                             <File size={20} />
                         </button>
                     </div>
                 </div>
             </div>
-
             <PostCard />
         </div >
     );

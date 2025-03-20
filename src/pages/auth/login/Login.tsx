@@ -41,11 +41,9 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (user.token) {
+        if (user.token && user.userName) {
             localStorage.setItem("token", user.token);
-            if (user.userId !== undefined) {
-                localStorage.setItem("userId", user.userId.toString());
-            }
+            localStorage.setItem("userName", user.userName);
             navigate("/user-home");
         }
     }, [user, navigate])

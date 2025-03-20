@@ -1,88 +1,10 @@
-// import { Link, useNavigate } from 'react-router-dom';
-// import { Users, ArrowRight } from 'lucide-react';
-
-// function Groups() {
-//     const navigate = useNavigate();
-//     const groups = [
-//         {
-//             id: 1,
-//             name: "Web Development Club",
-//             members: 1234,
-//             category: "Programming",
-//             description: "A community of web developers sharing knowledge and best practices",
-//             image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-//         },
-//         {
-//             id: 2,
-//             name: "Machine Learning Study Group",
-//             members: 856,
-//             category: "AI & Data Science",
-//             description: "Weekly discussions and practical implementations of ML algorithms",
-//             image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-//         },
-//         {
-//             id: 3,
-//             name: "UI/UX Design Workshop",
-//             members: 567,
-//             category: "Design",
-//             description: "Share and critique designs, discuss latest trends in UI/UX",
-//             image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-//         }
-//     ];
-
-//     return (
-//         <div>
-//             <div className="flex justify-between items-center mb-8">
-//                 <h2 className="text-2xl font-bold">Groups</h2>
-//                 <button onClick={() => { navigate('/user/create-group') }} className="px-4 py-2  text-white rounded-lg underline hover:text-orange-500 flex items-center">
-//                     {/* <Plus size={20} className="mr-2" /> */}
-//                     Create Group
-//                 </button>
-//             </div>
-
-//             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ml-auto mr-auto">
-//                 {/* <div className='grid grid-cols-2'> */}
-//                 {groups.map(group => (
-//                     <Link
-//                         key={group.id}
-//                         to={`/user-groups/details/${group.id}`}
-//                         className="bg-black rounded-xl border overflow-hidden hover:shadow-lg transition-shadow duration-200 w-[20rem] ml-auto mr-auto"
-//                     >
-//                         <div className="h-32 overflow-hidden">
-//                             <img
-//                                 src={group.image}
-//                                 alt={group.name}
-//                                 className="w-full h-full object-cover brightness-75"
-//                             />
-//                         </div>
-//                         <div className="p-6">
-//                             <div className="flex items-center justify-between mb-2">
-//                                 <h3 className="text-lg font-semibold">{group.name}</h3>
-//                                 <span className="flex items-center text-sm text-gray-500">
-//                                     <Users size={16} className="mr-1" />
-//                                     {group.members}
-//                                 </span>
-//                             </div>
-//                             <p className="text-sm text-gray-500 mb-2">{group.category}</p>
-//                             <p className="text-gray-600 mb-4">{group.description}</p>
-//                             <div className="flex justify-between items-center">
-//                                 <span className="text-sm text-gray-500">
-//                                     {group.members} members
-//                                 </span>
-//                                 <ArrowRight size={20} className="text-gray-400" />
-//                             </div>
-//                         </div>
-//                     </Link>
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default Groups;
-
 import { Link, useNavigate } from 'react-router-dom';
-import { Users, ArrowRight, Plus } from 'lucide-react';
+import { Users, ArrowRight } from 'lucide-react';
+import { useEffect } from 'react';
+import { useGroupDetailsStore } from './store';
+import { getAllGroups } from '@/api/api';
+import { log } from 'console';
+import { getGridUtilityClass } from '@mui/system';
 
 function Groups() {
     const navigate = useNavigate();
@@ -112,6 +34,21 @@ function Groups() {
             image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
         }
     ];
+
+    // const { data, setData, clearData } = useGroupDetailsStore();
+
+    useEffect(() => {
+
+        async function getGroupDetails() {
+            const res = await getAllGroups();
+            console.log(res);
+
+        }
+
+        getGroupDetails();
+    }, []);
+
+
 
     return (
         <div className="px-4 py-6">
