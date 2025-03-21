@@ -17,3 +17,8 @@ export const getAllGroups = async() => {
     const res = await axios_no_auth.get('Groups/get-all-groups');
     return res.data
 }
+
+export const getGroupByName = async (groupName:string) => {
+    const res = await axios_no_auth.get(`Groups/get-by-groupName/${groupName}`);
+    return res.data;
+}

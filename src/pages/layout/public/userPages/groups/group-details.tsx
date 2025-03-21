@@ -1,19 +1,27 @@
 import { Link, useParams } from 'react-router-dom';
-import {
-    Users,
-    Settings,
-    MessageCircle,
-    Calendar,
-    Share2,
-    Plus,
-    Bell,
-    ArrowRight,
-    Clock,
-    ExternalLink
-} from 'lucide-react';
+import { Users, Settings, MessageCircle, Calendar, Share2, Plus, Bell, ExternalLink } from 'lucide-react';
+import { useEffect } from 'react';
+import { useGroupDetailsStore } from './store';
+import { getGroupByName } from '@/api/api';
+import { IGroupDetailsData } from './interface';
 
 function GroupDetails() {
-    const { id } = useParams();
+    const { name } = useParams();
+    const { data, setData } = useGroupDetailsStore();
+
+    useEffect(() => {
+        async function fetchGroup() {
+            const res = await getGroupByName(name as string);
+
+            if (res) {
+                setData(res);
+            }
+        }
+        fetchGroup();
+    }, []);
+
+    const { groupName, memberCount, description, groupImage } = data as IGroupDetailsData;
+
 
     const group = {
         id: 1,
@@ -48,7 +56,8 @@ function GroupDetails() {
 
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-12">
-            {/* Breadcrumbs */}
+
+
             <nav className="flex py-4 text-sm text-gray-500" aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-1">
                     <li><Link to="#" className="hover:text-[#E26300] transition-colors">Groups</Link></li>
@@ -57,16 +66,14 @@ function GroupDetails() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </li>
-                    <li><span className="text-gray-800 font-medium">{group.name}</span></li>
+                    <li><span className="text-gray-800 font-medium">{groupName}</span></li>
                 </ol>
             </nav>
-
-            {/* Group Header */}
-            <div className="bg-black rounded-xl border border-gray-800 overflow-hidden mb-8 shadow-sm">
+            <div className="bg-black rounded-xl border border-gray-800 overflow-hidden mb-8 shadow-sm" >
                 <div className="h-56 overflow-hidden relative">
                     <img
-                        src={group.image}
-                        alt={group.name}
+                        src={groupImage}
+                        alt={groupImage}
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
@@ -90,15 +97,15 @@ function GroupDetails() {
 
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                         <div className="inline-block px-3 py-1 bg-[#E26300] text-white text-xs font-medium 
-                                      rounded-full mb-3 tracking-wide">
+                         rounded-full mb-3 tracking-wide">
                             {group.category}
                         </div>
-                        <h1 className="text-2xl sm:text-3xl font-bold mb-1 text-white">{group.name}</h1>
+                        <h1 className="text-2xl sm:text-3xl font-bold mb-1 text-white">{groupName}</h1>
                     </div>
                 </div>
 
                 <div className="p-5 sm:p-6">
-                    <p className="text-gray-300 mb-6 text-sm sm:text-base leading-relaxed">{group.description}</p>
+                    <p className="text-gray-300 mb-6 text-sm sm:text-base leading-relaxed">{description}</p>
 
                     <div className="flex flex-wrap gap-4 justify-between items-center">
                         <div className="grid grid-cols-3 gap-6 md:gap-8 mb-4 md:mb-0">
@@ -107,7 +114,7 @@ function GroupDetails() {
                                     <Users size={14} className="text-[#E26300]" />
                                 </div>
                                 <div>
-                                    <div className="text-white text-sm font-medium">{group.members.toLocaleString()}</div>
+                                    {/* <div className="text-white text-sm font-medium">{memberCount.toLocaleString()}</div> */}
                                     <div className="text-xs text-gray-400">members</div>
                                 </div>
                             </div>
@@ -117,7 +124,7 @@ function GroupDetails() {
                                     <MessageCircle size={14} className="text-[#E26300]" />
                                 </div>
                                 <div>
-                                    <div className="text-white text-sm font-medium">{group.discussions.length}</div>
+                                    {/* <div className="text-white text-sm font-medium">{group.discussions.length}</div> */}
                                     <div className="text-xs text-gray-400">discussions</div>
                                 </div>
                             </div>
@@ -141,7 +148,7 @@ function GroupDetails() {
                                     </span>
                                 )}
                                 <button className="px-5 py-2 bg-gray-800 text-white rounded-full flex items-center gap-2 
-                                               hover:bg-gray-700 transition-colors text-sm font-medium border border-gray-700">
+                                  hover:bg-gray-700 transition-colors text-sm font-medium border border-gray-700">
                                     Joined
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -152,7 +159,7 @@ function GroupDetails() {
                             </div>
                         ) : (
                             <button className="px-5 py-2 bg-[#E26300] text-white rounded-full flex items-center gap-2 
-                                           hover:bg-[#c25600] transition-colors text-sm font-medium">
+                              hover:bg-[#c25600] transition-colors text-sm font-medium">
                                 <Plus size={16} />
                                 Join Group
                             </button>
@@ -160,6 +167,7 @@ function GroupDetails() {
                     </div>
                 </div>
             </div>
+
 
             {/* Group Tabs (Simplified version) */}
             <div className="border-b border-gray-200 mb-6">
@@ -196,7 +204,7 @@ function GroupDetails() {
                     </button>
                 </div>
 
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                     {group.discussions.map(discussion => (
                         <div
                             key={discussion.id}
@@ -236,7 +244,7 @@ function GroupDetails() {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div> */}
 
                 <div className="mt-6 text-center">
                     <button className="inline-flex items-center px-4 py-2 text-sm border border-gray-200 rounded-lg
@@ -246,7 +254,7 @@ function GroupDetails() {
                     </button>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

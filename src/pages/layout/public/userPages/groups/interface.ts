@@ -1,6 +1,6 @@
 export type IGroupDetailsData = {
     groupName: string,
-    memberCount: string | number | undefined,
+    memberCount: string | number ,
     description:string,
     category:string,
     groupImage: string,
@@ -8,7 +8,7 @@ export type IGroupDetailsData = {
 }
 
 export interface IGroupDetailsStore  {
-    data: IGroupDetailsData,
-    setData: (data:IGroupDetailsData) => void,
+    data: IGroupDetailsData[] | IGroupDetailsData,
+    setData: (data:IGroupDetailsData[]) => void,
     clearData: () => void
 }

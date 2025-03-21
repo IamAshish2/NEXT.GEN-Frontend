@@ -3,8 +3,7 @@ import { Users, ArrowRight } from 'lucide-react';
 import { useEffect } from 'react';
 import { useGroupDetailsStore } from './store';
 import { getAllGroups } from '@/api/api';
-import { log } from 'console';
-import { getGridUtilityClass } from '@mui/system';
+import { IGroupDetailsData } from './interface';
 
 function Groups() {
     const navigate = useNavigate();
@@ -35,14 +34,15 @@ function Groups() {
         }
     ];
 
-    // const { data, setData, clearData } = useGroupDetailsStore();
+    const { data, setData } = useGroupDetailsStore();
 
     useEffect(() => {
-
         async function getGroupDetails() {
             const res = await getAllGroups();
-            console.log(res);
 
+            if (res) {
+                setData(res);
+            }
         }
 
         getGroupDetails();
@@ -90,17 +90,50 @@ function Groups() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {groups.map(group => (
+                {Array.isArray(data) && data.map((group: IGroupDetailsData) => (
                     <Link
-                        key={group.id}
-                        to={`/user-groups/details/${group.id}`}
+                        key={group.groupName}
+                        to={`/user-groups/details/${group.groupName}`}
                         className="ml-auto mr-auto bg-black rounded-xl border border-gray-800 overflow-hidden hover:shadow-lg 
-                                transition-shadow duration-200 w-full max-w-[20rem]"
+               transition-shadow duration-200 w-full max-w-[20rem]"
+                    >
+                        <div className="h-32 overflow-hidden">
+                            <img
+                                src={group.groupImage}
+                                alt='group'
+                                className="w-full h-full object-cover brightness-75"
+                            />
+                        </div>
+                        <div className="p-6">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-lg font-semibold text-white">{group.groupName}</h3>
+                            </div>
+
+                            <p className="text-sm text-[#E26300] mb-2">{group.category}</p>
+                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{group.category}</p>
+
+                            <div className="flex justify-between items-center mt-2">
+                                <span className="flex items-center text-sm text-gray-400">
+                                    <Users size={16} className="mr-2 text-gray-500" />
+                                    {group?.memberCount} members
+                                </span>
+                                <ArrowRight size={18} className="text-[#E26300]" />
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+
+                {/* {groups.map((group) => (
+                    <Link
+                        key={group.name}
+                        to={`/user-groups/details/${group.name}`}
+                        className="ml-auto mr-auto bg-black rounded-xl border border-gray-800 overflow-hidden hover:shadow-lg 
+               transition-shadow duration-200 w-full max-w-[20rem]"
                     >
                         <div className="h-32 overflow-hidden">
                             <img
                                 src={group.image}
-                                alt={group.name}
+                                alt='group'
                                 className="w-full h-full object-cover brightness-75"
                             />
                         </div>
@@ -110,18 +143,19 @@ function Groups() {
                             </div>
 
                             <p className="text-sm text-[#E26300] mb-2">{group.category}</p>
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{group.description}</p>
+                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{group.category}</p>
 
                             <div className="flex justify-between items-center mt-2">
                                 <span className="flex items-center text-sm text-gray-400">
                                     <Users size={16} className="mr-2 text-gray-500" />
-                                    {group.members.toLocaleString()} members
+                                    {group?.members} members
                                 </span>
                                 <ArrowRight size={18} className="text-[#E26300]" />
                             </div>
                         </div>
                     </Link>
-                ))}
+                ))} */}
+
             </div>
         </div>
     );
