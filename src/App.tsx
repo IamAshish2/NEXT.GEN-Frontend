@@ -9,6 +9,10 @@ import CreateGroupForm from "./pages/layout/public/userPages/groups/components/c
 import { FriendsPage } from "./pages/layout/public/userPages/friends/friends-page";
 import StudyMaterialCard from "./pages/layout/public/userPages/study-materials/study-material-card";
 import LandingPage from "./pages/layout/public/landing-page";
+import CreatePost from "./pages/layout/public/userPages/home-page-post/post-modal";
+import PostCard from "./pages/layout/public/userPages/home-page-post/PostCard";
+import UploadPostToGroup from "./pages/layout/public/userPages/groups/components/upload-post-to-group";
+import GroupMembers from "./pages/layout/public/userPages/groups/components/view-group-members";
 
 const SignUpPage = lazy(() => import("./pages/auth/signup/SignUp"));
 const LoginPage = lazy(() => import("./pages/auth/login/Login"))
@@ -42,6 +46,8 @@ function App() {
             <Route path="/user-profile" element={<Profile />} />
             <Route path="/user-groups" element={<Groups />} />
             <Route path="/user-groups/details/:name" element={<GroupDetails />} />
+            <Route path="/user-groups/details/:name/members" element={<GroupMembers />} />
+            <Route path="/user-groups/:name/post" element={<UploadPostToGroup />} />
             <Route path="/user/create-group" element={<CreateGroupForm />} />
             <Route path="/user-friends" element={<FriendsPage />} />
             <Route path="/user-home/upload-post" element={<UploadPost />} />

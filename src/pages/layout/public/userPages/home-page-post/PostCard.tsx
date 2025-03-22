@@ -135,6 +135,7 @@ const PostCard = ({ post }) => {
     );
 };
 
+
 const PostList = () => {
     const posts = [
         {

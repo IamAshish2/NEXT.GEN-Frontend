@@ -1,5 +1,7 @@
 import axios from "axios"
 
+export const userName = localStorage.getItem('userName');
+
 const host = "localhost"
 const port = 7172
 

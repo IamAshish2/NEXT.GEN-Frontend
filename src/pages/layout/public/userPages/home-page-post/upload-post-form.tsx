@@ -4,6 +4,7 @@ import { createPost } from '@/api/api';
 import { Blob } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 import { uploadImagesToCloudinary } from '@/api/cloudinary/upload-api';
+import { userName } from '@/global/config';
 
 const UploadPost = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -16,7 +17,6 @@ const UploadPost = () => {
         const selectedFile = e.target.files?.[0];
         if (selectedFile) {
 
-            // setData({ ...data, images: selectedFile });
             setImages((prev) => [...prev, selectedFile]);
 
             // Create preview URL for images
@@ -35,11 +35,10 @@ const UploadPost = () => {
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         try {
-            const userName = localStorage.getItem('userName');
             const url = await uploadImagesToCloudinary(images as File[]);
 
             const postData = {
-                ...data, imageUrls: url, userName: userName
+                ...data, imageUrls: url, userName
             }
 
             const res = await createPost(postData);

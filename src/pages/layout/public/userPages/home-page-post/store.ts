@@ -3,7 +3,7 @@ import { IUploadPostFromData, IUploadPostFromDataStore } from "./interface";
 
 export const useUploadPostStore = create<IUploadPostFromDataStore>((set) => ({
     data: {title:"",description:"",imageUrls:[]},
-
+ 
     setData: (data:IUploadPostFromData) => {
         set((state:IUploadPostFromDataStore) => ({
                 data:{...state.data,...data}

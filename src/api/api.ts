@@ -1,4 +1,5 @@
-import {  axios_auth, axios_no_auth } from "@/global/config"
+import {   axios_no_auth } from "@/global/config"
+import { IPostToGroupData } from "@/pages/layout/public/userPages/groups/components/interface";
 import { IUploadPostFromData } from "@/pages/layout/public/userPages/home-page-post/interface";
 import { IUserData } from "@/pages/layout/public/userPages/profile/interface";
 
@@ -17,8 +18,33 @@ export const getAllGroups = async() => {
     const res = await axios_no_auth.get('Groups/get-all-groups');
     return res.data
 }
-
+/*
 export const getGroupByName = async (groupName:string) => {
     const res = await axios_no_auth.get(`Groups/get-by-groupName/${groupName}`);
     return res.data;
+}
+ */
+
+export const getGroupByName = async (groupName:string,userName:string) => {
+    const res = await axios_no_auth.get(`Groups/get-by-groupName`,{
+        params:{groupName,userName}
+    });
+    return res.data;
+}
+
+export const joinGroup  = async(groupName:string,userName:string) => {
+    const res = await axios_no_auth.post(`GroupMember/join-group`,{GroupName:groupName,userName});
+    return res.status;
+}
+
+export const postToGroup = async (data: IPostToGroupData) => {
+    const res = await axios_no_auth.post(`Groups/upload-post-to-group`,data);
+    return res.status;
+}
+
+export const getGroupPosts = async (groupName: string) => {
+    const res = await axios_no_auth.get(`Post/get-all-group-posts/${groupName}`);
+    if(res){
+        return res.data;
+    }
 }
