@@ -14,7 +14,6 @@ export default function CreateGroupForm() {
         const image = e.target?.files?.[0];
         if (image) {
             setData({ ...data, image })
-            console.log(image);
         }
     }
 
@@ -38,7 +37,7 @@ export default function CreateGroupForm() {
 
     return (
         <div className="ml-auto  mr-auto p-8 rounded-xl shadow-lg max-w-md w-full border border-gray-800">
-            <h2 className="text-2xl font-bold text-white mb-6">Create Study Group</h2>
+            <h2 className="text-2xl text-center mb-6">Create Study Group</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                     <label className="block text-sm font-medium text-gray-400 mb-2">Group Name</label>

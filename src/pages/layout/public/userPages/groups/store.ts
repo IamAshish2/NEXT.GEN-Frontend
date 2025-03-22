@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IGroupDetailsData,IGroupDetailsStore } from "./interface";
+import { IGroupDetailsStore, IGroupPostData } from "./interface";
 
 export const useGroupDetailsStore = create<IGroupDetailsStore>((set) => ({
     /* i was initially doing it this way
@@ -22,4 +22,16 @@ export const useGroupDetailsStore = create<IGroupDetailsStore>((set) => ({
     clearData: () => {
       set({ data: [] });
     },
+
+
+    //  for the group post data
+    postData: [],
+    setPostData: (postData: IGroupPostData[]) => {
+      set({postData:postData})
+    },
+
+    clearPostData: () => {
+      set({postData:[]})
+    }
+
 }));

@@ -7,6 +7,7 @@ import { IGroupDetailsData } from './interface';
 
 function Groups() {
     const navigate = useNavigate();
+    /*
     const groups = [
         {
             id: 1,
@@ -32,14 +33,13 @@ function Groups() {
             description: "Share and critique designs, discuss latest trends in UI/UX",
             image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
         }
-    ];
+    ];*/
 
     const { data, setData } = useGroupDetailsStore();
 
     useEffect(() => {
         async function getGroupDetails() {
             const res = await getAllGroups();
-
             if (res) {
                 setData(res);
             }
@@ -110,7 +110,9 @@ function Groups() {
                             </div>
 
                             <p className="text-sm text-[#E26300] mb-2">{group.category}</p>
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{group.category}</p>
+                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">Created By{": "}
+                                <span className="text-sm text-[#E26300] mb-2">{group.creatorName}</span>
+                            </p>
 
                             <div className="flex justify-between items-center mt-2">
                                 <span className="flex items-center text-sm text-gray-400">
@@ -155,7 +157,6 @@ function Groups() {
                         </div>
                     </Link>
                 ))} */}
-
             </div>
         </div>
     );
