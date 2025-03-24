@@ -20,7 +20,7 @@ type TransitionProps = Omit<SlideProps, "direction">;
 const Toaster = ({ data, close }: IToaster) => {
     const handleClose = () => {
         close(false);
-    };
+    };  
 
     return (
         <Snackbar

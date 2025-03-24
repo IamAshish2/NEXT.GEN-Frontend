@@ -1,7 +1,9 @@
 import {   axios_no_auth } from "@/global/config"
 import { IPostToGroupData } from "@/pages/layout/public/userPages/groups/components/interface";
+import { ILikePostData } from "@/pages/layout/public/userPages/groups/group-posts/interface";
 import { IUploadPostFromData } from "@/pages/layout/public/userPages/home-page-post/interface";
 import { IUserData } from "@/pages/layout/public/userPages/profile/interface";
+import { log } from "node:console";
 
 export const createPost = async (data:IUploadPostFromData) => {
     const res = await axios_no_auth.post('post/create-post',data);
@@ -29,6 +31,8 @@ export const getGroupByName = async (groupName:string,userName:string) => {
     const res = await axios_no_auth.get(`Groups/get-by-groupName`,{
         params:{groupName,userName}
     });
+    console.log(res);
+    
     return res.data;
 }
 
@@ -47,4 +51,12 @@ export const getGroupPosts = async (groupName: string) => {
     if(res){
         return res.data;
     }
+}
+
+/* Like Post  */
+export const LikePost = async(data:ILikePostData) => {
+    const res = await axios_no_auth.post(`Like/like-post`,data);
+    console.log(res);
+    
+
 }

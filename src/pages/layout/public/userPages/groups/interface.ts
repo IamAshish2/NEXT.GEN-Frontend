@@ -14,7 +14,8 @@ export type IGroupPostData = {
     userName: string,
     postedDate: Date,
     imageUrls : string [] ,
-    description: string
+    description: string,
+    isLiked: boolean,
 }
 
 export interface IGroupDetailsStore  {

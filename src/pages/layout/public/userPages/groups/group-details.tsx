@@ -31,7 +31,7 @@ function GroupDetails() {
 
                             {hasJoined &&
                                 <button onClick={() => { navigate(`/user-groups/${groupName}/post`) }} className="flex items-center px-4 py-2 bg-black text-white rounded-full gap-2
-   hover:bg-[#E26300] transition-colors">
+                                    hover:bg-[#E26300] transition-colors">
                                     <Plus size={14} />
                                     <span className="text-xs font-medium">New Discussion</span>
                                 </button>
@@ -47,7 +47,7 @@ function GroupDetails() {
                                     <div className="flex items-start justify-between mb-3">
                                         <h3 className="font-medium text-gray-900">{post.title}</h3>
                                         <div className="flex items-center gap-1 text-xs text-gray-500 whitespace-nowrap">
-                                            {/* {post.postedDate} */}
+                                            {new Date(post.postedDate).toLocaleDateString()} {new Date(post.postedDate).toLocaleTimeString()}
                                             <Clock size={12} />
                                         </div>
                                     </div>
@@ -56,12 +56,6 @@ function GroupDetails() {
 
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center">
-                                            {/* <img
-                      src={post.imageUrls[0]}
-                      // alt={discussion.author}
-                      className="w-6 h-6 rounded-full mr-2 border border-white shadow-sm"
-                  /> */}
-
                                             <img
                                                 src={defaultProfile}
                                                 // alt={discussion.author}
@@ -73,13 +67,12 @@ function GroupDetails() {
                                         <div className="flex items-center gap-4">
                                             <div className="flex items-center text-gray-500">
                                                 <MessageCircle size={14} className="mr-1" />
-                                                {/* <span className="text-xs">{discussion.replies}</span> */}
                                             </div>
 
-                                            <a href="#" className="flex items-center text-xs text-[#E26300] font-medium hover:underline">
+                                            <Link to="posts" className="flex items-center text-xs text-[#E26300] font-medium hover:underline">
                                                 View
                                                 <ArrowRight size={12} className="ml-1" />
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -111,6 +104,8 @@ function GroupDetails() {
     useEffect(() => {
         async function fetchGroup() {
             const res = await getGroupByName(name as string, userName as string);
+            console.log(res);
+
             if (res) {
                 setData(res);
             }
@@ -118,13 +113,14 @@ function GroupDetails() {
 
         async function fetchGroupPosts() {
             const res = await getGroupPosts(name as string);
+
             if (res) {
                 setPostData(res);
             }
         }
         fetchGroup();
         fetchGroupPosts();
-    }, []);
+    }, [setPostData]);
 
     async function handleJoinGroup() {
         const res = await joinGroup(groupName, userName as string);
@@ -135,37 +131,39 @@ function GroupDetails() {
 
     const { groupName, category, memberCount, description, groupImage, hasJoined } = data as IGroupDetailsData;
 
+    console.log(hasJoined);
 
-    const group = {
-        id: 1,
-        name: "Web Development Club",
-        members: 1234,
-        category: "Programming",
-        description: "A community of web developers sharing knowledge and best practices. We focus on modern web technologies, frameworks, and best practices in web development.",
-        image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&h=400&q=80",
-        discussions: [
-            {
-                id: 1,
-                author: "John Doe",
-                title: "Best practices for React hooks",
-                content: "What are your thoughts on custom hooks vs regular functions?",
-                replies: 23,
-                time: "2h ago",
-                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            },
-            {
-                id: 2,
-                author: "Jane Smith",
-                title: "TypeScript configuration tips",
-                content: "Share your TypeScript config setups and best practices",
-                replies: 15,
-                time: "5h ago",
-                avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            }
-        ],
-        isJoined: true,
-        upcomingEvents: 2
-    };
+
+    // const group = {
+    //     id: 1,
+    //     name: "Web Development Club",
+    //     members: 1234,
+    //     category: "Programming",
+    //     description: "A community of web developers sharing knowledge and best practices. We focus on modern web technologies, frameworks, and best practices in web development.",
+    //     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&h=400&q=80",
+    //     discussions: [
+    //         {
+    //             id: 1,
+    //             author: "John Doe",
+    //             title: "Best practices for React hooks",
+    //             content: "What are your thoughts on custom hooks vs regular functions?",
+    //             replies: 23,
+    //             time: "2h ago",
+    //             avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    //         },
+    //         {
+    //             id: 2,
+    //             author: "Jane Smith",
+    //             title: "TypeScript configuration tips",
+    //             content: "Share your TypeScript config setups and best practices",
+    //             replies: 15,
+    //             time: "5h ago",
+    //             avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+    //         }
+    //     ],
+    //     isJoined: true,
+    //     upcomingEvents: 2
+    // };
 
     return (
         <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-12">
@@ -187,14 +185,14 @@ function GroupDetails() {
                         alt={groupImage}
                         className="w-full h-full object-cover brightness-50"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
+                    {/* <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div> */}
 
                     <div className="absolute top-4 right-4 flex space-x-2">
                         <button className="p-2 rounded-full bg-black/50 backdrop-blur-sm hover:bg-[#E26300]/80 transition-colors"
                             aria-label="Share group">
                             <Share2 size={16} className="text-white" />
                         </button>
-                        {group.isJoined && (
+                        {hasJoined && (
                             <button className="p-2 rounded-full bg-black/50 backdrop-blur-sm hover:bg-[#E26300]/80 transition-colors"
                                 aria-label="Notification settings">
                                 <Bell size={16} className="text-white" />
@@ -225,7 +223,7 @@ function GroupDetails() {
                                     <Users size={14} className="text-[#E26300]" />
                                 </div>
                                 <div>
-                                    <div className="text-white text-sm font-medium">{memberCount}</div>
+                                    <div className="text-white text-sm font-medium">{memberCount} members</div>
                                 </div>
                             </div>
 
@@ -234,7 +232,7 @@ function GroupDetails() {
                                     <MessageCircle size={14} className="text-[#E26300]" />
                                 </div>
                                 <div>
-                                    <div className="text-xs text-gray-400">{postData.length} discussions</div>
+                                    <div className="text-white text-sm font-medium">{postData.length} discussions</div>
                                 </div>
                             </div>
 
@@ -251,11 +249,11 @@ function GroupDetails() {
 
                         {hasJoined ? (
                             <div className="flex items-center gap-3">
-                                {group.upcomingEvents > 0 && (
+                                {/* {group.upcomingEvents > 0 && (
                                     <span className="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-xs font-medium">
                                         {group.upcomingEvents} upcoming events
                                     </span>
-                                )}
+                                )} */}
 
 
                                 <button className="px-5 py-2 bg-gray-800 text-white rounded-full flex items-center gap-2 

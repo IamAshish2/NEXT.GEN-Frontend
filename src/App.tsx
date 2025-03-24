@@ -13,6 +13,7 @@ import CreatePost from "./pages/layout/public/userPages/home-page-post/post-moda
 import PostCard from "./pages/layout/public/userPages/home-page-post/PostCard";
 import UploadPostToGroup from "./pages/layout/public/userPages/groups/components/upload-post-to-group";
 import GroupMembers from "./pages/layout/public/userPages/groups/components/view-group-members";
+import GroupPosts from "./pages/layout/public/userPages/groups/group-posts/group-posts";
 
 const SignUpPage = lazy(() => import("./pages/auth/signup/SignUp"));
 const LoginPage = lazy(() => import("./pages/auth/login/Login"))
@@ -47,6 +48,7 @@ function App() {
             <Route path="/user-groups" element={<Groups />} />
             <Route path="/user-groups/details/:name" element={<GroupDetails />} />
             <Route path="/user-groups/details/:name/members" element={<GroupMembers />} />
+            <Route path="/user-groups/details/:name/posts" element={<GroupPosts />} />
             <Route path="/user-groups/:name/post" element={<UploadPostToGroup />} />
             <Route path="/user/create-group" element={<CreateGroupForm />} />
             <Route path="/user-friends" element={<FriendsPage />} />
