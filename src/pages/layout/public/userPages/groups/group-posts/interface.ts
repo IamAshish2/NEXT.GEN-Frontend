@@ -4,13 +4,22 @@ export type ILikePostData = {
     postId: number
 }
 
+// the type our backend is expecting when the user comments on a post
+export type IPostCommentData = {
+    userName: string,
+    CommentText: string,
+    PostId: number,
+}
+
+
 export type ICommentData = {
     content:string,
-    isCommentClicked: boolean
+    postToCommentId: number | null,
+    userName: string
 }
 
 export interface ICommentStore {
-    data: ICommentData,
-    setData: (data:ICommentData) => void,
-    clearData: () => void
+    commentData: ICommentData,
+    setCommentData: (data:ICommentData) => void,
+    clearCommentData: () => void
 }

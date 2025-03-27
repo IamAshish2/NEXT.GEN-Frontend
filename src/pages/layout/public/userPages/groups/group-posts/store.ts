@@ -2,14 +2,14 @@ import { create } from "zustand";
 import { ICommentData, ICommentStore } from "./interface";
 
 export const useCreateCommentStore = create<ICommentStore>((set) => ({
-    data: {content:"",isCommentClicked:false},
+    commentData: {content:"",postToCommentId: null, userName:""},
 
-    setData: (data:ICommentData) => {
+    setCommentData: (data:ICommentData) => {
         set((state:ICommentStore) => ({
-            data:{...state.data,...data}
+            commentData:{...state.commentData,...data}
         }))
     },
-    clearData: () => {
-        set({   data: {content:"",isCommentClicked:false}})
+    clearCommentData: () => {
+        set({   commentData: {content:"",postToCommentId : null,userName:""}})
     }
 }));

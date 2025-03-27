@@ -16,6 +16,8 @@ export type IGroupPostData = {
     imageUrls : string [] ,
     description: string,
     isLiked: boolean,
+    likeCount: boolean,
+    comments: string[]
 }
 
 export interface IGroupDetailsStore  {

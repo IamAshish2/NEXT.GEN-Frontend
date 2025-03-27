@@ -39,7 +39,7 @@ function GroupDetails() {
                         </div>
 
                         <div className="space-y-4">
-                            {postData.map((post, index) => (
+                            {postData.slice(0, 3).map((post, index) => (
                                 <div
                                     key={index}
                                     className="p-5 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all duration-200"
@@ -69,7 +69,9 @@ function GroupDetails() {
                                                 <MessageCircle size={14} className="mr-1" />
                                             </div>
 
-                                            <Link to="posts" className="flex items-center text-xs text-[#E26300] font-medium hover:underline">
+                                            <Link to="#"
+                                                //  to={`/view-user-post/${post.postId}`}
+                                                className="flex items-center text-xs text-[#E26300] font-medium hover:underline">
                                                 View
                                                 <ArrowRight size={12} className="ml-1" />
                                             </Link>
@@ -80,11 +82,13 @@ function GroupDetails() {
                         </div>
 
                         <div className="mt-6 text-center">
-                            <button className="inline-flex items-center px-4 py-2 text-sm border border-gray-200 rounded-lg
-                   hover:border-[#E26300] hover:text-[#E26300] transition-colors">
-                                View all discussions
-                                <ExternalLink size={14} className="ml-2" />
-                            </button>
+                            {postData.length > 0 && (
+                                <Link to="posts" className="inline-flex items-center px-4 py-2 text-sm border border-gray-200 rounded-lg
+ hover:border-[#E26300] hover:text-[#E26300] transition-colors">
+                                    View all discussions
+                                    <ExternalLink size={14} className="ml-2" />
+                                </Link>
+                            )}
                         </div>
                     </div>
                 )
@@ -131,45 +135,12 @@ function GroupDetails() {
 
     const { groupName, category, memberCount, description, groupImage, hasJoined } = data as IGroupDetailsData;
 
-    console.log(hasJoined);
-
-
-    // const group = {
-    //     id: 1,
-    //     name: "Web Development Club",
-    //     members: 1234,
-    //     category: "Programming",
-    //     description: "A community of web developers sharing knowledge and best practices. We focus on modern web technologies, frameworks, and best practices in web development.",
-    //     image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&h=400&q=80",
-    //     discussions: [
-    //         {
-    //             id: 1,
-    //             author: "John Doe",
-    //             title: "Best practices for React hooks",
-    //             content: "What are your thoughts on custom hooks vs regular functions?",
-    //             replies: 23,
-    //             time: "2h ago",
-    //             avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-    //         },
-    //         {
-    //             id: 2,
-    //             author: "Jane Smith",
-    //             title: "TypeScript configuration tips",
-    //             content: "Share your TypeScript config setups and best practices",
-    //             replies: 15,
-    //             time: "5h ago",
-    //             avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-    //         }
-    //     ],
-    //     isJoined: true,
-    //     upcomingEvents: 2
-    // };
 
     return (
         <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-12">
             <nav className="flex py-4 text-sm text-gray-500" aria-label="Breadcrumb">
                 <ol className="flex items-center space-x-1">
-                    <li><Link to="#" className="hover:text-[#E26300] transition-colors">Groups</Link></li>
+                    <li><Link to="/user-groups" className="hover:text-[#E26300] transition-colors">Groups</Link></li>
                     <li className="flex items-center">
                         <svg className="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
