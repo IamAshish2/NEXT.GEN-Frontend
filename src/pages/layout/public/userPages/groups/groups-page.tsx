@@ -4,37 +4,10 @@ import { useEffect } from 'react';
 import { useGroupDetailsStore } from './store';
 import { getAllGroups } from '@/api/api';
 import { IGroupDetailsData } from './interface';
+import Loader from '@/global/components/Loader';
 
 function Groups() {
     const navigate = useNavigate();
-    /*
-    const groups = [
-        {
-            id: 1,
-            name: "Web Development Club",
-            members: 1234,
-            category: "Programming",
-            description: "A community of web developers sharing knowledge and best practices",
-            image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-        },
-        {
-            id: 2,
-            name: "Machine Learning Study Group",
-            members: 856,
-            category: "AI & Data Science",
-            description: "Weekly discussions and practical implementations of ML algorithms",
-            image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-        },
-        {
-            id: 3,
-            name: "UI/UX Design Workshop",
-            members: 567,
-            category: "Design",
-            description: "Share and critique designs, discuss latest trends in UI/UX",
-            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"
-        }
-    ];*/
-
     const { data, setData } = useGroupDetailsStore();
 
     useEffect(() => {
@@ -48,6 +21,9 @@ function Groups() {
         getGroupDetails();
     }, []);
 
+    if (Array.isArray(data) && data.length < 1) {
+        return <Loader />
+    }
 
 
     return (
@@ -124,39 +100,6 @@ function Groups() {
                         </div>
                     </Link>
                 ))}
-
-                {/* {groups.map((group) => (
-                    <Link
-                        key={group.name}
-                        to={`/user-groups/details/${group.name}`}
-                        className="ml-auto mr-auto bg-black rounded-xl border border-gray-800 overflow-hidden hover:shadow-lg 
-               transition-shadow duration-200 w-full max-w-[20rem]"
-                    >
-                        <div className="h-32 overflow-hidden">
-                            <img
-                                src={group.image}
-                                alt='group'
-                                className="w-full h-full object-cover brightness-75"
-                            />
-                        </div>
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-lg font-semibold text-white">{group.name}</h3>
-                            </div>
-
-                            <p className="text-sm text-[#E26300] mb-2">{group.category}</p>
-                            <p className="text-gray-400 text-sm mb-4 line-clamp-2">{group.category}</p>
-
-                            <div className="flex justify-between items-center mt-2">
-                                <span className="flex items-center text-sm text-gray-400">
-                                    <Users size={16} className="mr-2 text-gray-500" />
-                                    {group?.members} members
-                                </span>
-                                <ArrowRight size={18} className="text-[#E26300]" />
-                            </div>
-                        </div>
-                    </Link>
-                ))} */}
             </div>
         </div>
     );

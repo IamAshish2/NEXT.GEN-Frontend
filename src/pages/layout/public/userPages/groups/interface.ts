@@ -8,6 +8,18 @@ export type IGroupDetailsData = {
     hasJoined: boolean
 }
 
+export type ICommentData = {
+    content:string,
+    postToCommentId: number | null,
+    userName: string
+}
+
+// export interface ICommentStore {
+//     commentData: ICommentData,
+//     setCommentData: (data:ICommentData) => void,
+//     clearCommentData: () => void
+// }
+
 export type IGroupPostData = {
     postId: number | undefined,
     title: string,
@@ -17,7 +29,7 @@ export type IGroupPostData = {
     description: string,
     isLiked: boolean,
     likeCount: boolean,
-    comments: string[]
+    comments: ICommentData[]
 }
 
 export interface IGroupDetailsStore  {
@@ -26,7 +38,13 @@ export interface IGroupDetailsStore  {
     clearData: () => void,
 
     // data for post
-    postData: IGroupPostData[],
+    postData: IGroupPostData[] | IGroupPostData,
     setPostData: (postData: IGroupPostData[]) => void,
     clearPostData: () => void
+
+    // // data for comment
+    commentData: ICommentData,
+    setCommentData: (data:ICommentData) => void,
+    clearCommentData: () => void
+    addCommentToPost: (postId: number | undefined | string, comment: ICommentData) => void;
 }

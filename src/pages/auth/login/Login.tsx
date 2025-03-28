@@ -444,9 +444,9 @@ const Login = () => {
                     <h1 className="text-3xl font-bold text-black mb-3">
                         Welcome back
                     </h1>
-                    <p className="text-gray-500">
+                    {/* <p className="text-gray-500">
                         Continue your learning journey with 2.8k+ peers online
-                    </p>
+                    </p> */}
                 </div>
 
                 {/* Social Login */}
@@ -594,7 +594,7 @@ const Login = () => {
                 </p>
 
                 {/* Bottom Badge */}
-                <div className="mt-10 text-center">
+                {/* <div className="mt-10 text-center">
                     <div className="inline-flex items-center space-x-2 text-sm text-gray-500">
                         <span className="flex items-center">
                             {""}
@@ -604,7 +604,7 @@ const Login = () => {
                         <span>•</span>
                         <span>Instant access</span>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

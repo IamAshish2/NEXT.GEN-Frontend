@@ -19,7 +19,6 @@ const PublicLayout = () => {
                     <MobileNavigation /> : (
                         <div>
                             <Outlet />
-                            {/* <Footer /> */}
                         </div>
                     )}
             </div>

@@ -25,14 +25,14 @@ const Footer = () => {
                             </p>
                             
                             {/* Live Status */}
-                            <div className="flex items-center space-x-3 text-sm text-gray-500">
+                            {/* <div className="flex items-center space-x-3 text-sm text-gray-500">
                                 <span className="flex items-center">
                                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>{""}
                                     2,847 students online
                                 </span>
                                 <span className="text-gray-300">•</span>
                                 <span>{new Date("2025-03-16 13:57:13").toLocaleTimeString()} UTC</span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 

@@ -1,9 +1,9 @@
 import {   axios_no_auth } from "@/global/config"
 import { IPostToGroupData } from "@/pages/layout/public/userPages/groups/components/interface";
-import { ILikePostData } from "@/pages/layout/public/userPages/groups/group-posts/interface";
+import { ILikePostData, IPostCommentData } from "@/pages/layout/public/userPages/groups/group-posts/interface";
+import { ICommentData } from "@/pages/layout/public/userPages/groups/interface";
 import { IUploadPostFromData } from "@/pages/layout/public/userPages/home-page-post/interface";
 import { IUserData } from "@/pages/layout/public/userPages/profile/interface";
-import { log } from "node:console";
 
 export const createPost = async (data:IUploadPostFromData) => {
     const res = await axios_no_auth.post('post/create-post',data);
@@ -31,8 +31,6 @@ export const getGroupByName = async (groupName:string,userName:string) => {
     const res = await axios_no_auth.get(`Groups/get-by-groupName`,{
         params:{groupName,userName}
     });
-    console.log(res);
-    
     return res.data;
 }
 
@@ -56,7 +54,26 @@ export const getGroupPosts = async (groupName: string) => {
 /* Like Post  */
 export const LikePost = async(data:ILikePostData) => {
     const res = await axios_no_auth.post(`Like/like-post`,data);
-    console.log(res);
-    
+    return res.status;
+}
 
+
+// posts
+export const getPostDetailsById = async(postId: string) => {
+    const res = await axios_no_auth.get(`Post/get-post-details-by-id/${parseInt(postId)}`);
+    console.log(res.data);
+    
+    return res.data
+    
+}
+
+// comments
+export const commentInPost = async(data:IPostCommentData) => {
+    const res = await axios_no_auth.post(`Comments/comment`,data);
+    return res.status
+}
+
+export const getCommentForPost = async(postId:string) : Promise<ICommentData> => {
+    const res = await axios_no_auth.get(`Comments/get-comments-by-post/${postId}`);
+    return res.data
 }

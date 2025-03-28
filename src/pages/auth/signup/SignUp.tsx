@@ -70,6 +70,7 @@ const SignUp = () => {
                     <span className="text-gray-600 font-medium group-hover:text-black transition-colors">
                         Continue with Google
                     </span>
+
                 </button>
 
                 {/* Divider */}
@@ -226,7 +227,7 @@ const SignUp = () => {
                 </p>
 
                 {/* Bottom Badge */}
-                <div className="mt-10 text-center">
+                {/* <div className="mt-10 text-center">
                     <div className="inline-flex items-center space-x-2 text-sm text-gray-500">
                         <span className="flex items-center">
                             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
@@ -235,7 +236,7 @@ const SignUp = () => {
                         <span>•</span>
                         <span>Join them today</span>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

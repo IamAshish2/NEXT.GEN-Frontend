@@ -1,46 +1,22 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
-import { MessageCircle, MoreHorizontal, Send, X, ArrowLeft, ChevronLeft, Clock } from "lucide-react";
+import { MessageCircle, MoreHorizontal, Send, X, ArrowLeft, ChevronLeft } from "lucide-react";
 import { userName } from "@/global/config";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
-import { Avatar, CircularProgress, Tooltip } from "@mui/material";
-import { useCreateCommentStore } from "../group-posts/store";
-import { commentInPost, getCommentForPost } from "@/api/api";
+import { Avatar, CircularProgress } from "@mui/material";
+import { commentInPost, getPostDetailsById } from "@/api/api";
+import { useGroupDetailsStore } from "../store";
+import { IGroupPostData } from "../interface";
 
 const ViewPost = () => {
-    const { clearCommentData, commentData, setCommentData } = useCreateCommentStore();
+    const { setPostData, addCommentToPost, clearCommentData, commentData, setCommentData } = useGroupDetailsStore();
+    const postData: IGroupPostData[] = useGroupDetailsStore(state => state.postData as IGroupPostData[]);
     const navigate = useNavigate();
-    const location = useLocation();
-    const post = location.state;
     const params = useParams<{ postId: string }>();
     const [loading, setLoading] = useState(false);
     const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
     const commentInputRef = useRef(null);
-
-    useEffect(() => {
-        // If post data wasn't passed via location state, we could fetch it here
-        if (!post && params.postId) {
-            setLoading(true);
-            // Fetch post by ID could go here
-            // For now, just redirect back if no post data
-            navigate(-1);
-        }
-
-        // Cleanup function
-        return () => {
-            clearCommentData();
-        };
-    }, [post, params.postId, navigate,]); //clearCommentData
-
-    // useEffect(() => {
-    //     fetchComments();
-    // }, []);
-
-    // async function fetchComments() {
-    //     const res = await getCommentForPost(post.postId);
-    //     setPostData({ ...postData, comments: res });
-    // }
 
     const formatDate = (dateString: string) => {
         if (!dateString || dateString === "0001-01-01T00:00:00") return "Recently";
@@ -73,19 +49,20 @@ const ViewPost = () => {
         if (!commentData.content?.trim()) return;
 
         setIsCommentSubmitting(true);
+
+        // ensure optimistic ui
+        addCommentToPost(commentData.postToCommentId as number, commentData);
         try {
             const data = {
-                CommentText: commentData.content,
-                PostId: post.postId as number,
+                content: commentData.content,
+                PostId: params.postId as string,
                 userName: userName as string
             };
 
             await commentInPost(data);
 
-            // Optimistic UI update for comments could be added here
-            // if the API returns the updated comments
-
             clearCommentData();
+
         } catch (error) {
             console.error("Failed to submit comment:", error);
         } finally {
@@ -93,6 +70,21 @@ const ViewPost = () => {
         }
     }
 
+    useEffect(() => {
+        async function fetchPostById() {
+            setLoading(true)
+            const res = await getPostDetailsById(params.postId as string);
+
+            if (res) {
+                // ensure that the response is always an array, so that we can map over it.
+                setPostData(Array.isArray(res) ? res : [res]);
+            }
+
+            setLoading(false)
+        }
+
+        fetchPostById();
+    }, [clearCommentData, addCommentToPost, setPostData, params.postId]);
 
     if (loading) {
         return (
@@ -102,7 +94,7 @@ const ViewPost = () => {
         );
     }
 
-    if (!post) {
+    if (!postData) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-amber-50 via-white to-orange-50 p-4">
                 <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
@@ -123,6 +115,8 @@ const ViewPost = () => {
         );
     }
 
+
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-orange-50">
             <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -142,7 +136,8 @@ const ViewPost = () => {
                     <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 p-5 sm:p-6">
                         <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center">
                             <MessageCircle size={20} className="mr-2 text-amber-500" />
-                            Comments ({post.comments.length})
+                            {/* Comments ({postData.comments.length}) */}
+                            Comments
                         </h2>
 
                         {/* New Comment Form */}
@@ -189,77 +184,88 @@ const ViewPost = () => {
 
                         {/* Comments List */}
                         <div className="space-y-6">
-                            {post.comments.length > 0 ? (
-                                post.comments.map((comment, index) => (
-                                    <motion.div
-                                        key={comment.id || index}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.3, delay: index * 0.05 }}
-                                        className="flex gap-3"
-                                    >
-                                        <Avatar
-                                            {...stringAvatar(comment.userName)}
-                                            sx={{ width: 36, height: 36 }}
-                                        />
-                                        <div className="flex-1">
-                                            <div className="bg-gray-50 rounded-lg p-3 sm:p-4 relative">
-                                                <div className="absolute left-0 top-4 w-0 h-0 -ml-2 border-t-[6px] border-b-[6px] border-r-[6px] border-t-transparent border-b-transparent border-r-gray-50"></div>
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <div className="flex flex-col">
-                                                        <Link
-                                                            to={`/u/${comment.userName}`}
-                                                            className="font-semibold text-sm text-gray-900 hover:text-amber-600 transition-colors"
-                                                        >
-                                                            {comment.userName}
-                                                        </Link>
-                                                        <span className="text-xs text-gray-500">
-                                                            {formatDate(comment.createdAt)}
-                                                        </span>
-                                                    </div>
-                                                    <button className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200 transition-colors">
-                                                        <MoreHorizontal size={14} />
-                                                    </button>
-                                                </div>
-                                                <p className="text-gray-700 text-sm sm:text-base">
-                                                    {comment.commentText}
-                                                </p>
-                                            </div>
-                                            <div className="flex space-x-4 mt-1 ml-2">
-                                                <button className="text-xs text-gray-500 hover:text-amber-600 transition-colors">
-                                                    Like
-                                                </button>
-                                                <button
-                                                    className="text-xs text-gray-500 hover:text-amber-600 transition-colors"
-                                                    onClick={() => {
-                                                        commentInputRef.current?.focus();
-                                                        setCommentData({
-                                                            ...commentData,
-                                                            content: `@${comment.userName} `
-                                                        });
-                                                    }}
+                            {postData.map((post, idx) => (
+                                <div key={idx}>
+                                    {
+                                        post.postId == params.postId && post.comments.length > 0 && (
+                                            post.comments.map((comment, index) => (
+                                                <motion.div
+                                                    key={comment.postToCommentId}
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                                                    className="flex gap-3"
                                                 >
-                                                    Reply
-                                                </button>
-                                                <span className="text-xs text-gray-400">
-                                                    {comment.likes || 0} likes
-                                                </span>
+                                                    <Avatar
+                                                        {...stringAvatar(comment.userName)}
+                                                        sx={{ width: 36, height: 36 }}
+                                                    />
+                                                    <div className="flex-1">
+                                                        <div className="bg-gray-50 rounded-lg p-3 sm:p-4 relative">
+                                                            <div className="absolute left-0 top-4 w-0 h-0 -ml-2 border-t-[6px] border-b-[6px] border-r-[6px] border-t-transparent border-b-transparent border-r-gray-50"></div>
+                                                            <div className="flex justify-between items-start mb-2">
+                                                                <div className="flex flex-col">
+                                                                    <Link
+                                                                        to={`/u/${comment.userName}`}
+                                                                        className="font-semibold text-sm text-gray-900 hover:text-amber-600 transition-colors"
+                                                                    >
+                                                                        {comment.userName}
+                                                                    </Link>
+                                                                    <span className="text-xs text-gray-500">
+                                                                        {/* {formatDate(comment.)} */}
+                                                                    </span>
+                                                                </div>
+                                                                <button className="text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-200 transition-colors">
+                                                                    <MoreHorizontal size={14} />
+                                                                </button>
+                                                            </div>
+                                                            <p className="text-gray-700 text-sm sm:text-base">
+                                                                {comment.content}
+                                                            </p>
+                                                        </div>
+                                                        <div className="flex space-x-4 mt-1 ml-2">
+                                                            <button className="text-xs text-gray-500 hover:text-amber-600 transition-colors">
+                                                                Like
+                                                            </button>
+                                                            <button
+                                                                className="text-xs text-gray-500 hover:text-amber-600 transition-colors"
+                                                                onClick={() => {
+                                                                    commentInputRef.current?.focus();
+                                                                    setCommentData({
+                                                                        ...commentData,
+                                                                        content: `@${comment.userName} `
+                                                                    });
+                                                                }}
+                                                            >
+                                                                Reply
+                                                            </button>
+                                                            <span className="text-xs text-gray-400">
+                                                                {/* {comment.likes || 0} likes */}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            ))
+                                        )
+
+                                    }
+
+                                    {post.postId == params.postId && post.comments.length < 1 && (
+                                        <div className="text-center py-10">
+                                            <div className="w-16 h-16 mx-auto bg-amber-50 rounded-full flex items-center justify-center mb-4">
+                                                <MessageCircle size={24} className="text-amber-400" />
                                             </div>
+                                            <h3 className="text-lg font-semibold text-gray-800 mb-1">No comments yet</h3>
+                                            <p className="text-gray-500 max-w-sm mx-auto">
+                                                Be the first to share your thoughts on this post!
+                                            </p>
                                         </div>
-                                    </motion.div>
-                                ))
-                            ) : (
-                                <div className="text-center py-10">
-                                    <div className="w-16 h-16 mx-auto bg-amber-50 rounded-full flex items-center justify-center mb-4">
-                                        <MessageCircle size={24} className="text-amber-400" />
-                                    </div>
-                                    <h3 className="text-lg font-semibold text-gray-800 mb-1">No comments yet</h3>
-                                    <p className="text-gray-500 max-w-sm mx-auto">
-                                        Be the first to share your thoughts on this post!
-                                    </p>
+                                    )}
                                 </div>
-                            )}
+                            ))}
                         </div>
+
+
                     </div>
                 </div>
             </div>

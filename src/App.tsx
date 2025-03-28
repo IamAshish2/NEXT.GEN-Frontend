@@ -14,6 +14,7 @@ import PostCard from "./pages/layout/public/userPages/home-page-post/PostCard";
 import UploadPostToGroup from "./pages/layout/public/userPages/groups/components/upload-post-to-group";
 import GroupMembers from "./pages/layout/public/userPages/groups/components/view-group-members";
 import GroupPosts from "./pages/layout/public/userPages/groups/group-posts/group-posts";
+import PostView from "./pages/layout/public/userPages/groups/individual-post/view-individual-post";
 
 const SignUpPage = lazy(() => import("./pages/auth/signup/SignUp"));
 const LoginPage = lazy(() => import("./pages/auth/login/Login"))
@@ -53,6 +54,11 @@ function App() {
             <Route path="/user/create-group" element={<CreateGroupForm />} />
             <Route path="/user-friends" element={<FriendsPage />} />
             <Route path="/user-home/upload-post" element={<UploadPost />} />
+
+
+            {/* for viewing individual post */}
+            <Route path="/view-user-post/:postId" element={<PostView />} />
+
             <Route path="/study-materials" element={<StudyMaterialCard
               title="Advanced Mathematics"
               category="Mathematics"

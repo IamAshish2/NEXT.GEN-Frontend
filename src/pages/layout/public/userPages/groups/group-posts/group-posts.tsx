@@ -2,38 +2,18 @@ import { useEffect, useState, useRef, Fragment } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGroupDetailsStore } from "../store";
 import { commentInPost, getGroupPosts, LikePost } from "@/api/api";
-import {
-    Bookmark,
-    MessageCircle,
-    MoreHorizontal,
-    Share2,
-    Heart,
-    Send,
-    X,
-    Users,
-    Clock
-} from "lucide-react";
+import { Bookmark, MessageCircle, MoreHorizontal, Share2, Heart, Send, X, Users, Clock } from "lucide-react";
 import { userName } from "@/global/config";
 import { ILikePostData } from "./interface";
-import { useCreateCommentStore } from "./store";
 import { AnimatePresence, motion } from "framer-motion";
-import { formatDistanceToNow } from "date-fns";
 import { Dialog, Transition } from "@headlessui/react";
-
-// Material UI imports to replace shadcn components
-import {
-    Avatar,
-    Tooltip,
-    Skeleton,
-    CircularProgress
-} from "@mui/material";
+import { Avatar, Tooltip, Skeleton, CircularProgress } from "@mui/material";
 import { cn } from "@/lib/utils";
 import { IGroupPostData } from "../interface";
 
 const GroupPosts = () => {
     const params = useParams<string>();
-    const { postData, setPostData } = useGroupDetailsStore();
-    const { commentData, setCommentData, clearCommentData } = useCreateCommentStore();
+    const { postData, setPostData, commentData, setCommentData, clearCommentData, addCommentToPost } = useGroupDetailsStore();
     const [loading, setLoading] = useState(true);
     const [activePostId, setActivePostId] = useState<number | null>(null);
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
@@ -44,9 +24,6 @@ const GroupPosts = () => {
     const [isCommentSubmitting, setIsCommentSubmitting] = useState(false);
     const [sharableLink, setSharableLink] = useState("");
     const navigate = useNavigate();
-
-
-
 
     async function handleLike(postId: number) {
         if (likingInProgress.includes(postId)) return;
@@ -82,6 +59,7 @@ const GroupPosts = () => {
 
     async function handleCommentClick(postId: number) {
         setCommentData({ ...commentData, postToCommentId: postId });
+        // setPostData()
         setActivePostId(postId);
 
         // Focus the comment input after a slight delay to ensure it's rendered
@@ -92,21 +70,21 @@ const GroupPosts = () => {
         }, 100);
     }
 
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleCommentSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!commentData.content?.trim()) return;
 
         setIsCommentSubmitting(true);
+        // add the comment to the comments[] array in  post 
+        // Optimistic UI update for comments 
+        addCommentToPost(commentData.postToCommentId as number, commentData);
         try {
             const data = {
-                CommentText: commentData.content,
+                content: commentData.content,
                 PostId: commentData.postToCommentId as number,
                 userName: userName as string
             };
             await commentInPost(data);
-
-            // Optimistic UI update for comments could be added here
-            // if the API returns the updated comments
 
             clearCommentData();
             setActivePostId(null);
@@ -118,7 +96,7 @@ const GroupPosts = () => {
     }
 
     const handleShare = (postId: number) => {
-        const post = postData.find(p => p.postId === postId);
+        const post = (postData as IGroupPostData[]).find(p => p.postId === postId);
         if (!post) return;
 
         const baseUrl = window.location.origin;
@@ -151,10 +129,24 @@ const GroupPosts = () => {
         setCurrentImageIndex((prev) => (prev - 1 + post.imageUrls.length) % post.imageUrls.length);
     };
 
-    const formatDate = (dateString: string) => {
-        if (!dateString || dateString === "0001-01-01T00:00:00") return "Recently";
+    const formatDate = (dateString: Date | string) => {
         const date = new Date(dateString);
-        return formatDistanceToNow(date, { addSuffix: true });
+
+        if (isNaN(date.getTime())) {
+            return "Invalid Date";
+        }
+
+        const options: Intl.DateTimeFormatOptions = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            timeZoneName: "short"
+        };
+
+        return new Intl.DateTimeFormat("en-US", options).format(date); // You can change 'en-US' to other locale.
     };
 
     // Helper function to generate avatar string
@@ -227,7 +219,7 @@ const GroupPosts = () => {
                         </div>
                     </header>
 
-                    {loading ? (
+                    {loading && (
                         // Material UI Skeleton loading state
                         <div className="space-y-6">
                             {[1, 2].map((i) => (
@@ -252,7 +244,8 @@ const GroupPosts = () => {
                                 </div>
                             ))}
                         </div>
-                    ) : Array.isArray(postData) && postData.length > 0 ? (
+                    )}
+                    {Array.isArray(postData) && postData.length > 0 ? (
                         <AnimatePresence>
                             <div className="space-y-8">
                                 {postData.map((post, index) => (
@@ -274,10 +267,10 @@ const GroupPosts = () => {
                                                 {/* Material UI Avatar */}
                                                 <div className="relative">
                                                     <Avatar
-                                                        // src={post.imageUrls?.[0] || undefined}
-                                                        src={stringAvatar(post.userName as string)}
+                                                        src={post.imageUrls?.[0] || undefined}
+                                                        // src={stringAvatar(post.userName as string)}
                                                         alt={post.userName}
-                                                        // {...(!post.imageUrls?.[0] ? stringAvatar(post.userName) : {})}
+                                                        {...(!post.imageUrls?.[0] ? stringAvatar(post.userName) : {})}
                                                         sx={{
                                                             width: 48,
                                                             height: 48,
@@ -306,7 +299,7 @@ const GroupPosts = () => {
 
                                                         <div className="flex items-center text-xs text-gray-500">
                                                             <Clock size={12} className="mr-1 text-gray-400" />
-                                                            {formatDate(post.postedDate)}
+                                                            {formatDate(post.postedDate as Date)}
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center text-sm text-gray-500 mt-0.5">
@@ -389,16 +382,11 @@ const GroupPosts = () => {
 
                                                                 <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
                                                                     {post.imageUrls.map((_, idx) => (
-                                                                        <div
+                                                                        <button
                                                                             key={idx}
-                                                                            className={cn(
-                                                                                "w-2 h-2 rounded-full transition-all",
-                                                                                idx === currentImageIndex
-                                                                                    ? "bg-white scale-110"
-                                                                                    : "bg-white/40 hover:bg-white/70"
-                                                                            )}
+                                                                            className={`w-2 h-2 rounded-full transitional ${idx === currentImageIndex ? 'bg-white scale-110' : 'bg-white/40 hover:bg-white/70'}`}
                                                                             onClick={() => setCurrentImageIndex(idx)}
-                                                                        />
+                                                                        ></button>
                                                                     ))}
                                                                 </div>
                                                             </>
@@ -410,7 +398,8 @@ const GroupPosts = () => {
                                             {/* Post Actions */}
                                             <div className="flex flex-col items-center gap-1 pt-4 mt-2 border-t border-gray-100">
                                                 {post.comments.length > 0 &&
-                                                    <button onClick={() => { navigate(`/view-user-post/${post.postId}`, { state: post }) }} className="text-sm underline text-[#E26300] w-full text-end hover:cursor-pointer"> View all comments <span className="">({post.comments.length})</span></button>
+                                                    // , { state: post }
+                                                    <button onClick={() => { navigate(`/view-user-post/${post.postId}`) }} className="text-sm underline text-[#E26300] w-full text-end hover:cursor-pointer"> View all comments <span className="">({post.comments.length})</span></button>
                                                 }
                                                 <div className="flex items-center items-start w-full">
                                                     {/* Material UI Tooltip for Like */}
@@ -498,11 +487,10 @@ const GroupPosts = () => {
                                                         transition={{ duration: 0.2 }}
                                                         className="mt-4 overflow-hidden"
                                                     >
-                                                        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                                                        <form onSubmit={handleCommentSubmit} className="flex flex-col gap-3">
                                                             <div className="flex gap-3">
                                                                 {/* Material UI Avatar for comment */}
                                                                 <Avatar
-                                                                    sx={{ width: 32, height: 32 }}
                                                                     src={`https://api.dicebear.com/7.x/initials/svg?seed=${userName}`}
                                                                     {...stringAvatar(userName as string)}
                                                                 />

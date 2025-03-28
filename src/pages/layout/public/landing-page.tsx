@@ -168,19 +168,19 @@ function LandingPage() {
                     <div className="max-w-4xl mx-auto text-center">
                         {/* Live Stats Badge */}
                         <div className="inline-flex items-center bg-gray-50 rounded-full px-4 py-2 mb-8">
-                            <div className="flex items-center">
+                            {/* <div className="flex items-center">
                                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
                                 <span className="text-sm text-gray-600 mr-2">Online now:</span>
                                 <span className="text-sm font-medium">2,847 students</span>
                                 <span className="mx-2 text-gray-300">•</span>
                                 <span className="text-sm text-gray-600">{new Date("2025-03-16 13:49:58").toLocaleTimeString()} UTC</span>
-                            </div>
+                            </div> */}
                         </div>
 
                         {/* Hero Title */}
                         <h1 className="text-5xl sm:text-6xl font-bold text-black mb-6 leading-tight">
-                            Where students
-                            <span className="text-[#E26300]"> learn together</span>
+                            Where students{""}
+                            <span className="text-[#E26300]"> learn together</span>{""}
                             <br />
                             and grow together
                         </h1>
