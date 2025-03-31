@@ -59,7 +59,6 @@ const GroupPosts = () => {
 
     async function handleCommentClick(postId: number) {
         setCommentData({ ...commentData, postToCommentId: postId });
-        // setPostData()
         setActivePostId(postId);
 
         // Focus the comment input after a slight delay to ensure it's rendered
@@ -299,7 +298,7 @@ const GroupPosts = () => {
 
                                                         <div className="flex items-center text-xs text-gray-500">
                                                             <Clock size={12} className="mr-1 text-gray-400" />
-                                                            {formatDate(post.postedDate as Date)}
+                                                            {formatDate(post.postedDate)}
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center text-sm text-gray-500 mt-0.5">

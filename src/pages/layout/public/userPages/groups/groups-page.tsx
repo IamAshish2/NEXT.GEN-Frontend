@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { useGroupDetailsStore } from './store';
 import { getAllGroups } from '@/api/api';
 import { IGroupDetailsData } from './interface';
-import Loader from '@/global/components/Loader';
 
 function Groups() {
     const navigate = useNavigate();
@@ -21,9 +20,6 @@ function Groups() {
         getGroupDetails();
     }, []);
 
-    if (Array.isArray(data) && data.length < 1) {
-        return <Loader />
-    }
 
 
     return (

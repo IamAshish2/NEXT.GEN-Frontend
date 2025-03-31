@@ -3,14 +3,15 @@ import { Users, Settings, MessageCircle, Calendar, Share2, Plus, Bell, ExternalL
 import { useEffect, useState } from 'react';
 import { useGroupDetailsStore } from './store';
 import { getGroupByName, getGroupPosts, joinGroup } from '@/api/api';
-import { IGroupDetailsData } from './interface';
+import { IGroupDetailsData, IGroupPostData } from './interface';
 import { userName } from '@/global/config';
 import defaultProfile from "@/assets/guts.jpeg"
 import { GroupTabs } from '@/global/enums';
 
 function GroupDetails() {
     const { name } = useParams();
-    const { data, setData, postData, setPostData } = useGroupDetailsStore();
+    const { data, setData, setPostData } = useGroupDetailsStore();
+    const postData: IGroupPostData[] = useGroupDetailsStore((state) => state.postData as IGroupPostData[]);
     const navigate = useNavigate();
 
     const [activeTab, setActiveTab] = useState<GroupTabs>(GroupTabs.DISCUSSIONS);
@@ -39,9 +40,9 @@ function GroupDetails() {
                         </div>
 
                         <div className="space-y-4">
-                            {postData.slice(0, 3).map((post, index) => (
+                            {postData.slice(0, 3).map((post) => (
                                 <div
-                                    key={index}
+                                    key={post.postId}
                                     className="p-5 rounded-xl border border-gray-200 hover:border-gray-300 bg-white transition-all duration-200"
                                 >
                                     <div className="flex items-start justify-between mb-3">
@@ -108,8 +109,6 @@ function GroupDetails() {
     useEffect(() => {
         async function fetchGroup() {
             const res = await getGroupByName(name as string, userName as string);
-            console.log(res);
-
             if (res) {
                 setData(res);
             }
@@ -220,13 +219,6 @@ function GroupDetails() {
 
                         {hasJoined ? (
                             <div className="flex items-center gap-3">
-                                {/* {group.upcomingEvents > 0 && (
-                                    <span className="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-xs font-medium">
-                                        {group.upcomingEvents} upcoming events
-                                    </span>
-                                )} */}
-
-
                                 <button className="px-5 py-2 bg-gray-800 text-white rounded-full flex items-center gap-2 
                                  hover:bg-gray-700 transition-colors text-sm font-medium border border-gray-700">
                                     Joined
@@ -251,8 +243,8 @@ function GroupDetails() {
             </div>
             <div className="border-b border-gray-200 mb-6">
                 <nav className="-mb-px flex space-x-8">
-                    {Object.values(GroupTabs).map((tabs, index) => (
-                        <button key={index} onClick={() => {
+                    {Object.values(GroupTabs).map((tabs) => (
+                        <button key={tabs} onClick={() => {
                             setActiveTab(tabs)
                             renderContent()
                         }} className={`py-4 px-1 text-sm font-medium ${tabs == activeTab ? 'border-b-2 border-[#E26300] text-[#E26300]' : ''}`}>

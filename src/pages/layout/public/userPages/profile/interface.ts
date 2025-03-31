@@ -1,4 +1,4 @@
-import { AxiosResponse, HttpStatusCode } from "axios"
+import { AxiosResponse } from "axios"
 
 export type IUserData = {
     fullName: string
