@@ -9,7 +9,6 @@ import { useGlobalStore } from "../../../global/store";
 import { RiLockPasswordLine, RiUserLine } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
 import { ArrowRight } from "lucide-react";
-import { base_url } from "@/global/config";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -42,12 +41,10 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (user.token && user.userName) {
-            localStorage.setItem("token", user.token);
-            localStorage.setItem("userName", user.userName);
+        if (user.userName) {
             navigate("/user-home");
         }
-    }, [user, navigate])
+    }, [setUser,user,loginUser,navigate])
 
     function handleGoogleLogin() {
         window.location.href = "https://localhost:7172/api/account/login/google?returnUrl=http://localhost:5173/user-home";
@@ -67,9 +64,6 @@ const Login = () => {
                     <h1 className="text-3xl font-bold text-black mb-3">
                         Welcome back
                     </h1>
-                    {/* <p className="text-gray-500">
-                        Continue your learning journey with 2.8k+ peers online
-                    </p> */}
                 </div>
 
                 {/* Social Login */}
@@ -215,19 +209,6 @@ const Login = () => {
                         Create an account
                     </Link>
                 </p>
-
-                {/* Bottom Badge */}
-                {/* <div className="mt-10 text-center">
-                    <div className="inline-flex items-center space-x-2 text-sm text-gray-500">
-                        <span className="flex items-center">
-                            {""}
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>{""}
-                            2.8k+ students online
-                        </span>
-                        <span>•</span>
-                        <span>Instant access</span>
-                    </div>
-                </div> */}
             </div>
         </div>
     );

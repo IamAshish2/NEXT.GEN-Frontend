@@ -1,4 +1,4 @@
-import {   axios_no_auth } from "@/global/config"
+import {   axios_auth, axios_no_auth } from "@/global/config"
 import { IPostToGroupData } from "@/pages/layout/public/userPages/groups/components/interface";
 import { ILikePostData, IPostCommentData } from "@/pages/layout/public/userPages/groups/group-posts/interface";
 import { ICommentData } from "@/pages/layout/public/userPages/groups/interface";
@@ -76,4 +76,10 @@ export const commentInPost = async(data:IPostCommentData) => {
 export const getCommentForPost = async(postId:string) : Promise<ICommentData> => {
     const res = await axios_no_auth.get(`Comments/get-comments-by-post/${postId}`);
     return res.data
+}
+
+// after using cookies
+export const getUserProfile = async() => {
+    const res = await axios_auth.get('User/get-user-profile');
+    return res;
 }

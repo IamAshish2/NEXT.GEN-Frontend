@@ -1,15 +1,20 @@
+import { AlertColor } from "@mui/material";
 import { IToasterData } from "./components/toaster/interface";
 
 export type IUserData =  {
   userName: string,
-  token:string
 }
+
+// for use with toaster
+export type IResponse = {
+  message: string;
+  severity: AlertColor | undefined;
+};
 
 export interface IGlobalStore {
     // activeUrl: string;
     // setActiveUrl: (url: string) => void;
     user : IUserData, 
-    // setUser: (data: { role: string; token: string; name:string }) => void;
     setUser: (data: IUserData) => void,
     toaster: IToasterData,
     setToasterData: (data:IToasterData) => void,

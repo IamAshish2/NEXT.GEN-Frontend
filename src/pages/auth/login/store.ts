@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { ISignInData, ISignInDataError, ISignInStore } from './interface'
-import { axios_no_auth } from '../../../global/config';
+import { axios_auth } from '../../../global/config';
 
 export const useSignInStore = create<ISignInStore>((set,get) => ({
     signInData: {email: "", password: "", userName: ""},
@@ -20,16 +20,13 @@ export const useSignInStore = create<ISignInStore>((set,get) => ({
     },
     clearSignInDataError: () => set({signInDataError: {email: "",password:"",userName:""}}),
 
+    // handle the errors properly
     signIn: async () => {
         try {
-            const res = await axios_no_auth.post('Auth/login',get().signInData);
-            if(res.status === 200 && res.data.token){
-                return {token: res?.data?.token,userName: res?.data?.userName};
-            }
-            return false;
+            const res = await axios_auth.post('Auth/login',get().signInData);
+            return res;  
         } catch (error) {
-            console.log(error);
-            return false;
+            return undefined
         }
     }
 }));

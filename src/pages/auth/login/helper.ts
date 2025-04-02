@@ -1,5 +1,7 @@
-import { IUserData } from "@/global/interface";
 import { ISignInData, ISignInDataError } from "./interface";
+import { AxiosResponse } from "axios";
+import { useGlobalStore } from "@/global/store";
+import { IUserData } from "@/global/interface";
 
 export class LoginClass {
 
@@ -17,7 +19,8 @@ export class LoginClass {
         clearSignInDataError: () => void,
         setLoading: React.Dispatch<React.SetStateAction<boolean>>,
         setUser: (data: IUserData) => void,
-        loginUser: () => Promise<false | IUserData>,
+        // loginUser: () => Promise<IResponse>,
+        loginUser: () => Promise<void | AxiosResponse>
     ) => {
 
         setLoading(true);
@@ -31,19 +34,27 @@ export class LoginClass {
 
         try {
             const res = await loginUser();
+            
             if(res && Object.keys(res).length > 0){
+                const data = res?.data;
+
+                const user = useGlobalStore.getState().user;
                 setUser({
-                    token: res?.token,
-                    userName: res?.userName
-                  });  
+                    ...user,
+                    userName: data?.userName
+                })
+            
                   clearSignInData();
                   clearSignInDataError();
                   setLoading(false);
-                return true;
+                //   return res?.status >= 200 && res?.status <= 300 
+                //   ? {message: res?.data?.message , severity: "success"}
+                //    :  { message: res?.data?.message, severity: "error" };
             }
         } catch (error) {
+            console.log('error c=occured');
+            
             setLoading(false);
-            return false;
         }
     }
 }

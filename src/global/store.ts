@@ -3,10 +3,7 @@ import { IGlobalStore, IUserData } from "./interface";
 import { IToasterData } from "./components/toaster/interface";
 
 export const useGlobalStore = create<IGlobalStore>((set) => ({
-    user: {
-          token: "",
-          userName: ""
-        },
+    user: {userName: ""},
 
     setUser: (data: IUserData ) => {
       set((state: IGlobalStore) => ({

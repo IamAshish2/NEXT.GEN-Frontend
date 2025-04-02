@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./index.css";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Loader from "./global/components/Loader";
 import { useGlobalStore } from "./global/store";
 import Toaster from "./global/components/toaster/toaster";
@@ -9,12 +9,11 @@ import CreateGroupForm from "./pages/layout/public/userPages/groups/components/c
 import { FriendsPage } from "./pages/layout/public/userPages/friends/friends-page";
 import StudyMaterialCard from "./pages/layout/public/userPages/study-materials/study-material-card";
 import LandingPage from "./pages/layout/public/landing-page";
-import CreatePost from "./pages/layout/public/userPages/home-page-post/post-modal";
-import PostCard from "./pages/layout/public/userPages/home-page-post/PostCard";
 import UploadPostToGroup from "./pages/layout/public/userPages/groups/components/upload-post-to-group";
 import GroupMembers from "./pages/layout/public/userPages/groups/components/view-group-members";
 import GroupPosts from "./pages/layout/public/userPages/groups/group-posts/group-posts";
 import PostView from "./pages/layout/public/userPages/groups/individual-post/view-individual-post";
+import { useAuthStore } from "./pages/auth/auth-store";
 
 const SignUpPage = lazy(() => import("./pages/auth/signup/SignUp"));
 const LoginPage = lazy(() => import("./pages/auth/login/Login"))
@@ -28,7 +27,14 @@ const GroupDetails = lazy(() => import("./pages/layout/public/userPages/groups/g
 
 function App() {
 
-  const { toaster, closeToasterData } = useGlobalStore();
+  const { toaster, closeToasterData, user } = useGlobalStore();
+  const { getProfile } = useAuthStore();
+
+  // fetch the user Profile information on load
+  useEffect(() => {
+    getProfile(); 
+  }, []);
+
   return (
     <>
       {/* private routes */}

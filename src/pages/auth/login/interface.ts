@@ -1,4 +1,4 @@
-import { IUserData } from "@/global/interface";
+import { AxiosResponse } from "axios";
 
 export type ISignInData = {
     email: string | FormDataEntryValue | null 
@@ -20,5 +20,7 @@ export interface ISignInStore {
     signInDataError : ISignInDataError;
     setSignInDataError : (data: ISignInDataError) => void;
     clearSignInDataError : () => void;
-    signIn : () => Promise<false | IUserData>
+    // when the user signs in to the application, the server sends back the message and severity of the message
+    // signIn : () => Promise<IResponse>;
+    signIn : () => Promise<void | AxiosResponse>;
 }
