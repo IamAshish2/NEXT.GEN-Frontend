@@ -1,57 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
-import { IoPeopleOutline } from "react-icons/io5";
-
-import { Mail, MapPin, Link as LinkIcon, Edit, Settings, Book, Users, X, } from 'lucide-react';
+import { Mail, MapPin, Link as LinkIcon, Edit, Settings, X, Book, Users, User, } from 'lucide-react';
 import { useUserProfileStore } from "./store";
-import { useParams } from "react-router-dom";
+import { useGlobalStore } from "@/global/store";
+import { AlertColor } from "@mui/material";
 
 function Profile() {
-    const [user, setUser] = useState({
-        name: "Ashish Karki",
-        title: "Computer Science Student",
-        location: "San Francisco, CA",
-        email: "alex.thompson@university.edu",
-        website: "alexthompson.dev",
-        bio: "Final year CS student passionate about web development and machine learning. Always eager to learn and collaborate on interesting projects.",
-        skills: ["React", "TypeScript", "Python", "Machine Learning", "Node.js"],
-        socials: {
-            github: "",
-            linkedin: "",
-            twitter: ""
-        },
-        stats: {
-            posts: 45,
-            groups: 8,
-            connections: 234
-        },
-        activities: [
-            {
-                id: 1,
-                type: "post",
-                title: "Implementing Authentication in React",
-                engagement: "23 likes • 12 comments",
-                time: "2 days ago"
-            },
-            {
-                id: 2,
-                type: "group",
-                title: "Joined Machine Learning Study Group",
-                engagement: "856 members",
-                time: "1 week ago"
-            }
-        ]
-    });
-
-    // State for edit profile modal
-
+    const { setToasterData } = useGlobalStore();
     const [showEditModal, setShowEditModal] = useState(false);
     const skillRef = useRef<HTMLInputElement | null>(null);
     const socialsRef = useRef<HTMLInputElement | null>(null);
-    const { data, setData, clearData, appendSkill, appendSocials, getUserDetails, editUserDetails } = useUserProfileStore();
-    const { userName } = useParams();
+    const { data, setData, appendSkill, appendSocials, getUserDetails, editUserDetails } = useUserProfileStore();
 
+    /*
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setData({
@@ -59,6 +19,7 @@ function Profile() {
             [name]: value
         });
     };
+    */
 
     // Handle social links changes
     const addSocialLink = () => {
@@ -81,7 +42,8 @@ function Profile() {
 
     useEffect(() => {
         async function fetchUserDetails() {
-            const res = await getUserDetails("riya");
+            const res = await getUserDetails();
+
             // Filter out empty strings from socials and skills
             const filteredSocials = res?.socials.filter((link: string) => link.trim() !== '');
             const filteredSkills = res?.skills.filter((skill) => skill.trim() != '');
@@ -99,15 +61,10 @@ function Profile() {
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // user data in data from store
-
-        const res = await editUserDetails('riya', data);
+        const res = await editUserDetails(data);
         if (res?.data == 204) {
-            console.log('success');
-
+            setToasterData({ message: "Successfully updated the profile.", severity: "success" as AlertColor, open: true });
         }
-
-
         setShowEditModal(false);
     };
 
@@ -121,11 +78,11 @@ function Profile() {
                         <div className="flex items-end -mt-12">
                             <img
                                 src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                // alt={}
+                                alt={'profile'}
                                 className="w-24 h-24 rounded-xl border-4 border-orange-500"
                             />
                             <div className="ml-4 mb-2 max-w-44">
-                                <h1 className="text-2xl font-bold">{data.fullName}</h1>
+                                <h1 className="text-2xl font-bold">{data?.userName}</h1>
                                 <p className="text-gray-600">{data.course}</p>
                             </div>
                         </div>
@@ -149,7 +106,7 @@ function Profile() {
                             <div className="space-y-2">
                                 <div className="flex items-center text-gray-600">
                                     <MapPin size={16} className="mr-2" />
-                                    {data.address}
+                                    {data.address ? data.address : 'Add your address'}
                                 </div>
                                 <div className="flex items-center text-gray-600">
                                     <Mail size={16} className="mr-2" />
@@ -171,33 +128,33 @@ function Profile() {
                         <div>
                             <h3 className="font-semibold mb-2">Skills</h3>
                             <div className="flex flex-wrap gap-2">
-                                {data.skills.length > 0 && data.skills[0] != '' && data.skills.map(skill => (
+                                {data.skills.length > 0 && data.skills[0] != '' ? data.skills.map(skill => (
                                     <span
                                         key={skill}
                                         className="px-3 py-1 border border-gray-800 hover:scale-110 rounded-full text-sm"
                                     >
                                         {skill}
                                     </span>
-                                ))}
+                                )) : 'add your skills'}
                             </div>
                             {/* user stats */}
-                            {/* <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+                            <div className="mt-6 grid grid-cols-3 gap-4 text-center">
                                 <div className="p-4 rounded-lg border border-gray-700 hover:scale-110">
                                     <Book size={20} className="mx-auto mb-2" />
-                                    <div className="font-semibold">{user.stats.posts}</div>
+                                    <div className="font-semibold">{data?.stats?.posts}</div>
                                     <div className="text-sm text-gray-500">Posts</div>
                                 </div>
                                 <div className="p-4 rounded-lg border border-gray-700 hover:scale-110">
                                     <Users size={20} className="mx-auto mb-2" />
-                                    <div className="font-semibold">{user.stats.groups}</div>
+                                    <div className="font-semibold">{data?.stats?.groups}</div>
                                     <div className="text-sm text-gray-500">Groups</div>
                                 </div>
                                 <div className="p-4 rounded-lg border border-gray-700 hover:scale-110">
-                                    <IoPeopleOutline size={20} className="mx-auto mb-2" />
-                                    <div className="font-semibold">{user.stats.connections}</div>
+                                    <User size={20} className="mx-auto mb-2" />
+                                    <div className="font-semibold">{data?.stats?.connections}</div>
                                     <div className="text-sm text-gray-500">Connections</div>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>

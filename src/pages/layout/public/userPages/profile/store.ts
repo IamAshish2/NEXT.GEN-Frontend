@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import { IUserData, IUserDataStore } from "./interface";
-import { axios_auth, axios_auth_form, axios_no_auth } from "@/global/config";
-import { log } from "console";
-import axios, { AxiosResponse, HttpStatusCode } from "axios";
+import { axios_auth } from "@/global/config";
+import  { AxiosResponse } from "axios";
 
 export const useUserProfileStore = create<IUserDataStore>((set) => ({
-    data:{  fullName: "", course: "",bio: "",address: "",email: "",socials: [],skills: []},
+    data:{  userName: "", stats:{posts:0, groups:0, connections:0},  fullName: "", profilePicture:"", course: "",bio: "",address: "",email: "",socials: [],skills: []},
 
     setData: (data:IUserData) => {
         set((state:IUserDataStore) => ({
@@ -14,7 +13,7 @@ export const useUserProfileStore = create<IUserDataStore>((set) => ({
     },
 
     clearData:() => {
-        set({data:{  fullName: "", course: "",bio: "",address: "",email: "",socials: [],skills: []},})
+        set({data:{  userName : "", stats:{posts:0, groups:0, connections:0},  fullName: "", profilePicture:"", course: "",bio: "",address: "",email: "",socials: [],skills: []},})
     },
 
     appendSkill: (skill:string) => {
@@ -45,10 +44,9 @@ export const useUserProfileStore = create<IUserDataStore>((set) => ({
 
 
     // hit the https://localhost:7172/api/User/get-user-by-name/{userName} api
-    getUserDetails: async(userName:string | undefined) : Promise<IUserData | null> => {
+    getUserDetails: async() : Promise<IUserData | null> => {
         try {
-            const res = await axios_no_auth.get(`User/get-user-by-name/${userName}`);
-         
+            const res = await axios_auth.get(`User/get-user-by-name/`);
             return res.data
 
         } catch (error) {
@@ -58,10 +56,10 @@ export const useUserProfileStore = create<IUserDataStore>((set) => ({
     },
 
     // edit/update the user details the user details
-    editUserDetails: async (userName:string,data:IUserData) : Promise<AxiosResponse | null> => {
+    editUserDetails: async (data:IUserData) : Promise<AxiosResponse | null> => {
         try {
-            const res = await axios_no_auth.put(`User/update-user/${userName}`,data);
-            console.log(res.data);
+            const res = await axios_auth.put(`User/update-user/`,data);
+            console.log(res);
             
             return res.data
         } catch (error) {

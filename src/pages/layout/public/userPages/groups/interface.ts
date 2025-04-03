@@ -11,7 +11,6 @@ export type IGroupDetailsData = {
 export type ICommentData = {
     content:string,
     postToCommentId: number | null,
-    userName: string
 }
 
 // export interface ICommentStore {

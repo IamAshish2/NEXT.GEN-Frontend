@@ -1,39 +1,32 @@
-import { Route, Routes } from "react-router-dom";
 import "./index.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import Loader from "./global/components/Loader";
 import { useGlobalStore } from "./global/store";
 import Toaster from "./global/components/toaster/toaster";
-import Profile from "./pages/layout/public/userPages/profile/profile";
-import CreateGroupForm from "./pages/layout/public/userPages/groups/components/create-group-form";
-import { FriendsPage } from "./pages/layout/public/userPages/friends/friends-page";
-import StudyMaterialCard from "./pages/layout/public/userPages/study-materials/study-material-card";
+import Protected from "./pages/auth/Protected";
 import LandingPage from "./pages/layout/public/landing-page";
-import UploadPostToGroup from "./pages/layout/public/userPages/groups/components/upload-post-to-group";
-import GroupMembers from "./pages/layout/public/userPages/groups/components/view-group-members";
-import GroupPosts from "./pages/layout/public/userPages/groups/group-posts/group-posts";
-import PostView from "./pages/layout/public/userPages/groups/individual-post/view-individual-post";
-import { useAuthStore } from "./pages/auth/auth-store";
 
 const SignUpPage = lazy(() => import("./pages/auth/signup/SignUp"));
-const LoginPage = lazy(() => import("./pages/auth/login/Login"))
-const PublicLayout = lazy(() => import("@/pages/layout/public/public-layout"))
-const HomePage = lazy(() => import("@/pages/layout/public/userPages/home-page"))
+const LoginPage = lazy(() => import("./pages/auth/login/Login"));
+const PublicLayout = lazy(() => import("@/pages/layout/public/public-layout"));
+const HomePage = lazy(() => import("@/pages/layout/public/userPages/home-page"));
 const NotFoundPage = lazy(() => import("@/global/components/not-found-page"));
-const UploadPost = lazy(() => import("@/pages/layout/public/userPages/home-page-post/upload-post-form"))
+const UploadPost = lazy(() => import("@/pages/layout/public/userPages/home-page-post/upload-post-form"));
+const Profile = lazy(() => import("./pages/layout/public/userPages/profile/profile"));
 const Groups = lazy(() => import("./pages/layout/public/userPages/groups/groups-page"));
-const GroupDetails = lazy(() => import("./pages/layout/public/userPages/groups/group-details"))
+const GroupDetails = lazy(() => import("./pages/layout/public/userPages/groups/group-details"));
+const CreateGroupForm = lazy(() => import("./pages/layout/public/userPages/groups/components/create-group-form"));
+const GroupMembers = lazy(() => import("./pages/layout/public/userPages/groups/components/view-group-members"));
+const GroupPosts = lazy(() => import("./pages/layout/public/userPages/groups/group-posts/group-posts"));
+const UploadPostToGroup = lazy(() => import("./pages/layout/public/userPages/groups/components/upload-post-to-group"));
+const PostView = lazy(() => import("./pages/layout/public/userPages/groups/individual-post/view-individual-post"));
+const FriendsPage = lazy(() => import("./pages/layout/public/userPages/friends/friends-page"));
+const StudyMaterialCard = lazy(() => import("./pages/layout/public/userPages/study-materials/study-material-card"));
 
 
 function App() {
-
-  const { toaster, closeToasterData, user } = useGlobalStore();
-  const { getProfile } = useAuthStore();
-
-  // fetch the user Profile information on load
-  useEffect(() => {
-    getProfile(); 
-  }, []);
+  const { toaster, closeToasterData } = useGlobalStore();
 
   return (
     <>

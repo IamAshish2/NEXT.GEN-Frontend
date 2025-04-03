@@ -1,7 +1,7 @@
 import { Users, Image } from 'lucide-react';
 import { useCreateGroupStore } from './store';
 import { uploadImageToCloudinary } from '@/api/cloudinary/upload-api';
-import { axios_no_auth } from '@/global/config';
+import { axios_auth, axios_no_auth } from '@/global/config';
 import { useNavigate } from 'react-router-dom';
 
 export default function CreateGroupForm() {
@@ -20,15 +20,13 @@ export default function CreateGroupForm() {
     async function handleSubmit(e: React.FormEvent) {
 
         e.preventDefault();
-        const userName = localStorage.getItem("userName");
         const imageUrl = await uploadImageToCloudinary(data.image);
 
         const queryData = {
             ...data,
             GroupImage: imageUrl,
-            CreatorName: userName,
         }
-        const res = await axios_no_auth.post('/groups/create-group', queryData);
+        const res = await axios_auth.post('/groups/create-group', queryData);
         if (res.status == 201) {
             navigate("/user-groups");
             clearData();

@@ -15,6 +15,6 @@ export type IPostToGroupData = {
     Title: string | FormDataEntryValue | null,
     Description: string | FormDataEntryValue | null,
     ImageUrls: string[] ,
-    UserName: string,
+    // UserName: string,
     GroupName: string
 }

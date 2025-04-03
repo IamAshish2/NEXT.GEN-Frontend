@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useGroupDetailsStore } from './store';
 import { getGroupByName, getGroupPosts, joinGroup } from '@/api/api';
 import { IGroupDetailsData, IGroupPostData } from './interface';
-import { userName } from '@/global/config';
 import defaultProfile from "@/assets/guts.jpeg"
 import { GroupTabs } from '@/global/enums';
 
@@ -108,7 +107,7 @@ function GroupDetails() {
 
     useEffect(() => {
         async function fetchGroup() {
-            const res = await getGroupByName(name as string, userName as string);
+            const res = await getGroupByName(name as string);
             if (res) {
                 setData(res);
             }
@@ -126,7 +125,7 @@ function GroupDetails() {
     }, [setPostData]);
 
     async function handleJoinGroup() {
-        const res = await joinGroup(groupName, userName as string);
+        const res = await joinGroup(groupName);
         if (res == 400) {
             return
         }

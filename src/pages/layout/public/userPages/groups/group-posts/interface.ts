@@ -1,12 +1,11 @@
 export type ILikePostData = {
-    userName: string,
     groupName: string,
     postId: number
 }
 
 // the type our backend is expecting when the user comments on a post
 export type IPostCommentData = {
-    userName: string,
+    // userName: string,
     content: string,
     PostId: string | number,
 }

@@ -34,13 +34,12 @@ const GroupPosts = () => {
             const data: ILikePostData = {
                 postId,
                 groupName: groupName as string,
-                userName: userName as string
             };
             await LikePost(data);
 
             // Optimistic UI update
             setPostData(
-                postData.map(post =>
+                (postData as IGroupPostData[])?.map(post =>
                     post.postId === postId
                         ? {
                             ...post,
@@ -81,8 +80,10 @@ const GroupPosts = () => {
             const data = {
                 content: commentData.content,
                 PostId: commentData.postToCommentId as number,
-                userName: userName as string
             };
+
+            console.log(data);
+
             await commentInPost(data);
 
             clearCommentData();
@@ -149,14 +150,14 @@ const GroupPosts = () => {
     };
 
     // Helper function to generate avatar string
-    const stringAvatar = (name: string) => {
-        return {
-            sx: {
-                bgcolor: generateColorFromString(name),
-            },
-            children: name?.[0]?.toUpperCase() || '?',
-        };
-    };
+    // const stringAvatar = (name: string) => {
+    //     return {
+    //         sx: {
+    //             bgcolor: generateColorFromString(name),
+    //         },
+    //         children: name?.[0]?.toUpperCase() || '?',
+    //     };
+    // };
 
     // Generate a deterministic color from a string
     const generateColorFromString = (str: string) => {
@@ -269,7 +270,7 @@ const GroupPosts = () => {
                                                         src={post.imageUrls?.[0] || undefined}
                                                         // src={stringAvatar(post.userName as string)}
                                                         alt={post.userName}
-                                                        {...(!post.imageUrls?.[0] ? stringAvatar(post.userName) : {})}
+                                                        // {...(!post.imageUrls?.[0] ? stringAvatar(post?.userName) : {})}
                                                         sx={{
                                                             width: 48,
                                                             height: 48,
@@ -491,7 +492,7 @@ const GroupPosts = () => {
                                                                 {/* Material UI Avatar for comment */}
                                                                 <Avatar
                                                                     src={`https://api.dicebear.com/7.x/initials/svg?seed=${userName}`}
-                                                                    {...stringAvatar(userName as string)}
+                                                                // {...stringAvatar(userName as string)}
                                                                 />
 
                                                                 <div className="relative flex-1">

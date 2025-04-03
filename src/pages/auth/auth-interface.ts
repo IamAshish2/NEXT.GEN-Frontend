@@ -8,16 +8,15 @@ export interface IAuthStore {
     setLoading: (loading: boolean) => void;
     isLogin: boolean;
     setIsLogin: (isLogin: boolean) => void;
-
-    // checkAuth: () => Promise<IAuthRes | null>;
+    checkAuth: () => Promise<IAuthRes | undefined>;
     // getProfile: () => Promise<IResponse>;
 
-    getProfile: () => Promise<void>,
+    getProfile: () => Promise<string | undefined>,
     // getAccessTokenFromRefreshToken: () => Promise<void>
 }
 
 
  export type IAuthRes = {
- userName:string;
+    isLoggedIn: boolean
   };
   

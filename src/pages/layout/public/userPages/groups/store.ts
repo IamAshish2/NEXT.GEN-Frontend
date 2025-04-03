@@ -44,7 +44,7 @@ export const useGroupDetailsStore = create<IGroupDetailsStore>((set) => ({
               }))
           },
           clearCommentData: () => {
-              set({   commentData: {content:"",postToCommentId : null,userName:""}})
+              set({   commentData: {content:"",postToCommentId : null}})
           },
 
         addCommentToPost: (postId: number | undefined | string, comment: ICommentData) => {

@@ -27,13 +27,16 @@ export const useGlobalStore = create<IGlobalStore>((set) => ({
       }))},
 
     closeToasterData: () => {
-      set(() => ({
-        toaster: {
-          "message":"",
-          severity: undefined,
-          open: false
-              },
-      }))
+      setTimeout(() => {
+        set(() => ({
+          toaster: {
+            message:"",
+            severity: undefined,
+            open: false
+                },
+        }))
+      },500);
+    
     }
 } 
 ))
