@@ -9,8 +9,12 @@ import { useGlobalStore } from "../../../global/store";
 import { RiLockPasswordLine, RiUserLine } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
 import { ArrowRight } from "lucide-react";
+import { AlertColor } from "@mui/material";
 
 const Login = () => {
+
+    const { setToasterData } = useGlobalStore();
+
     const navigate = useNavigate();
     const loginClass = useMemo(() => new LoginClass(), []);
 
@@ -19,6 +23,7 @@ const Login = () => {
     const clearData = useSignInStore((state: ISignInStore) => state.clearSignInData);
     const setDataError = useSignInStore((state: ISignInStore) => state.setSignInDataError);
     const clearDataError = useSignInStore((state: ISignInStore) => state.clearSignInDataError);
+    const dataError = useSignInStore((state: ISignInStore) => state.signInDataError);
 
     const loginUser = useSignInStore((state: ISignInStore) => state.signIn);
     const user = useGlobalStore((state: IGlobalStore) => state.user);
@@ -29,22 +34,31 @@ const Login = () => {
     const handleSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
         setLoading(true);
-        await loginClass.signIn(
+        const res = await loginClass.signIn(
             data,
             clearData,
             setDataError,
             clearDataError,
             setLoading,
-            setUser,
             loginUser,
         );
+
+        // for form validation
+        if (!res) {
+            setToasterData({ message: dataError.message, severity: dataError.severity as AlertColor, open: true });
+        }
+
+        if (res) {
+            setToasterData({ message: res.message, severity: res.severity as AlertColor, open: true });
+        }
+
     }
 
     useEffect(() => {
         if (user.userName) {
             navigate("/user-home");
         }
-    }, [setUser,user,loginUser,navigate])
+    }, [setUser, user, loginUser, navigate])
 
     function handleGoogleLogin() {
         window.location.href = "https://localhost:7172/api/account/login/google?returnUrl=http://localhost:5173/user-home";

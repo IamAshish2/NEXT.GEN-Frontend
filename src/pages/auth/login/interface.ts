@@ -1,4 +1,5 @@
-import { AxiosResponse } from "axios";
+import { IResponse } from "@/global/interface";
+import { AlertColor } from "@mui/material";
 
 export type ISignInData = {
     email: string | FormDataEntryValue | null 
@@ -7,10 +8,9 @@ export type ISignInData = {
 }
 
 export type ISignInDataError = {
-    email: string;
-    userName: string;
-    password: string;
-}
+    message: string,
+    severity: AlertColor  | undefined
+} 
 
 export interface ISignInStore {
     signInData : ISignInData;
@@ -21,6 +21,5 @@ export interface ISignInStore {
     setSignInDataError : (data: ISignInDataError) => void;
     clearSignInDataError : () => void;
     // when the user signs in to the application, the server sends back the message and severity of the message
-    // signIn : () => Promise<IResponse>;
-    signIn : () => Promise<void | AxiosResponse>;
+    signIn : () => Promise<IResponse>;
 }
