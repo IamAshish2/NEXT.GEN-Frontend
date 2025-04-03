@@ -11,8 +11,10 @@ import { FcGoogle } from "react-icons/fc";
 import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine, RiUserLine } from "react-icons/ri";
 import { ArrowRight } from "lucide-react";
+import { AlertColor } from "@mui/material";
 
 const SignUp = () => {
+
     const navigate = useNavigate();
     const signUpClass = useMemo(() => new SignUpHelper(), []);
 
@@ -21,13 +23,14 @@ const SignUp = () => {
     const clearData = useSignUpStore((state: ISignUpStore) => state.clearSignUpData);
     const setErrors = useSignUpStore((state: ISignUpStore) => state.setSignUpErrors);
     const clearErrors = useSignUpStore((state: ISignUpStore) => state.clearSignUpErrors);
+    const dataError = useSignUpStore((state: ISignUpStore) => state.signUpErrors);
     const signUp = useSignUpStore((state: ISignUpStore) => state.SignUp);
     const [loading, setLoading] = useState(false);
-    const { setToasterData } = useGlobalStore();
+    const { setToasterData, closeToasterData } = useGlobalStore();
 
     async function handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
-        const status = await signUpClass.signUp(
+        const res = await signUpClass.signUp(
             data,
             signUp,
             clearData,
@@ -36,9 +39,18 @@ const SignUp = () => {
             clearErrors,
             setToasterData
         );
-        if (status) {
+
+        // for form validation
+        if (!res) {
+            setToasterData({ message: dataError.message, severity: dataError.severity as AlertColor, open: true });
+            closeToasterData();
+        }
+
+        if (res) {
+            setToasterData({ message: res.message, severity: res.severity as AlertColor, open: true });
             navigate('/login')
         }
+
     }
 
     if (loading) return (<Loader />)

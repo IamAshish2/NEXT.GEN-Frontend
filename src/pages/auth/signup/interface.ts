@@ -1,3 +1,6 @@
+import { IResponse } from "@/global/interface"
+import { AlertColor } from "@mui/material"
+
 export type ISignUpData = {
     userName: string | FormDataEntryValue | null,
     email:string | FormDataEntryValue | null,
@@ -6,10 +9,8 @@ export type ISignUpData = {
 }
 
 export type ISignUpDataErrors = {
-    userName: string,
-    email:string 
-    password: string 
-    confirmPassword: string 
+    message: string,
+    severity: AlertColor  | undefined
 }
 
 export interface ISignUpStore {
@@ -20,5 +21,5 @@ export interface ISignUpStore {
     signUpErrors : ISignUpDataErrors
     setSignUpErrors : (errors:ISignUpDataErrors) => void,
     clearSignUpErrors: () => void,
-    SignUp: () => Promise<boolean>
+    SignUp: () => Promise<IResponse>
 }

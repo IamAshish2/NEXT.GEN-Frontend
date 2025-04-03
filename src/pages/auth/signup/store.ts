@@ -16,7 +16,7 @@ export const useSignUpStore = create<ISignUpStore>((set,get) => ({
     }))
    },
 
-   signUpErrors: {email:"",password:"",userName:"",confirmPassword:""},
+   signUpErrors:  {message:"",severity: undefined},
    setSignUpErrors: (data:ISignUpDataErrors) => {
     set((state:ISignUpStore) => ({
         signUpErrors:{...state.signUpErrors,...data}
@@ -24,7 +24,7 @@ export const useSignUpStore = create<ISignUpStore>((set,get) => ({
    },
    clearSignUpErrors: () => {
     set(() => ({
-        signUpErrors:{email:"",password:"",userName:"",confirmPassword:""}
+        signUpErrors: {message:"",severity: undefined},
     }))
    },
    SignUp: async () => {
@@ -36,13 +36,14 @@ export const useSignUpStore = create<ISignUpStore>((set,get) => ({
     
     try {
         const res = await axios_no_auth.post('User/create-user',signUpData);
-        if(res.status === 201){
-            return true;
+        return res?.status >= 200 && res?.status <= 300
+            ? { message: res?.data?.message, severity: "success" }
+            : { message: res?.data?.message, severity: "error" };
+    } catch (error:any) {
+        if(error?.response?.data?.message){
+            return {message:error?.response?.data?.message,severity:"error"}
         }
-        return false;
-    } catch (err) {
-        console.log(err);
-        return false;
+        return { message: "something went wrong", severity: "error" };
     }
    }
 }))

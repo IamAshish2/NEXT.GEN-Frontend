@@ -42,8 +42,6 @@ export const useSignInStore = create<ISignInStore>((set,get) => ({
             : { message: res?.data?.message, severity: "error" };
         } 
         catch (error: any) {
-            console.log(error);
-
             if(error?.response?.data?.message){
                 return {message:error?.response?.data?.message,severity:"error"}
             }
