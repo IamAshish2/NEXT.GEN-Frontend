@@ -3,7 +3,7 @@ import axios from "axios"
 export const userName = localStorage.getItem('userName');
 
 const host = "localhost"
-const port = 7172
+export const port = 44360
 
 
 export const base_url = `https://${host}:${port}/api/`

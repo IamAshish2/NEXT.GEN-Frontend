@@ -56,6 +56,8 @@ export const LikePost = async(data:ILikePostData) => {
 // posts
 export const getPostDetailsById = async(postId: string) => {
     const res = await axios_auth.get(`Post/get-post-details-by-id/${parseInt(postId)}`);
+    console.log(res);
+    
     return res.data
 }
 

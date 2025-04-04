@@ -10,6 +10,7 @@ import { RiLockPasswordLine, RiUserLine } from "react-icons/ri";
 import { HiOutlineMail } from "react-icons/hi";
 import { ArrowRight } from "lucide-react";
 import { AlertColor } from "@mui/material";
+import { port } from "@/global/config";
 
 const Login = () => {
 
@@ -61,7 +62,7 @@ const Login = () => {
     }, [setUser, user, loginUser, navigate])
 
     function handleGoogleLogin() {
-        window.location.href = "https://localhost:7172/api/account/login/google?returnUrl=http://localhost:5173/user-home";
+        window.location.href = `https://localhost:${port}/api/account/login/google?returnUrl=http://localhost:5173/user-home`;
     }
 
     return (

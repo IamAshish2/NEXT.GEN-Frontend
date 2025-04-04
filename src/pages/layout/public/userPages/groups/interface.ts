@@ -10,6 +10,7 @@ export type IGroupDetailsData = {
 
 export type ICommentData = {
     content:string,
+    userName: string;
     postToCommentId: number | null,
 }
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MessageCircle, MoreHorizontal, Send, X, ArrowLeft, ChevronLeft } from "lucide-react";
 import { userName } from "@/global/config";
 import { motion } from "framer-motion";
@@ -22,26 +22,6 @@ const ViewPost = () => {
         if (!dateString || dateString === "0001-01-01T00:00:00") return "Recently";
         const date = new Date(dateString);
         return formatDistanceToNow(date, { addSuffix: true });
-    };
-
-    // // Generate a deterministic color from a string
-    const generateColorFromString = (str: string) => {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
-        const c = (hash & 0x00FFFFFF).toString(16).toUpperCase();
-        return `#${"00000".substring(0, 6 - c.length)}${c}`;
-    };
-
-    // Helper function for avatar
-    const stringAvatar = (name: string) => {
-        return {
-            sx: {
-                bgcolor: generateColorFromString(name),
-            },
-            children: name?.[0]?.toUpperCase() || '?',
-        };
     };
 
     async function handleCommentSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -144,7 +124,7 @@ const ViewPost = () => {
                         <form onSubmit={handleCommentSubmit} className="mb-8">
                             <div className="flex gap-3 mb-3">
                                 <Avatar
-                                    {...stringAvatar(userName as string)}
+                                    // {...stringAvatar(userName as string)}
                                     sx={{ width: 40, height: 40 }}
                                 />
 
@@ -184,8 +164,8 @@ const ViewPost = () => {
 
                         {/* Comments List */}
                         <div className="space-y-6">
-                            {postData.map((post, idx) => (
-                                <div key={idx}>
+                            {postData.map((post, index) => (
+                                <div key={index}>
                                     {
                                         post.postId == params.postId && post.comments.length > 0 && (
                                             post.comments.map((comment, index) => (
@@ -197,7 +177,7 @@ const ViewPost = () => {
                                                     className="flex gap-3"
                                                 >
                                                     <Avatar
-                                                        {...stringAvatar(comment.userName)}
+                                                        // {...stringAvatar(comment.userName)}
                                                         sx={{ width: 36, height: 36 }}
                                                     />
                                                     <div className="flex-1">
