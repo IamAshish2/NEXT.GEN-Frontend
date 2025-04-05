@@ -6,7 +6,8 @@ const host = "localhost"
 export const port = 44360
 
 
-export const base_url = `https://${host}:${port}/api/`
+// export const base_url = ``
+export const base_url = import.meta.env.BASE_URL;
 
 export const axios_no_auth = axios.create({
     baseURL:base_url,

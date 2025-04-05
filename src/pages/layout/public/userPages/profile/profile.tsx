@@ -68,6 +68,9 @@ function Profile() {
         setShowEditModal(false);
     };
 
+    console.log(data);
+
+
     return (
         <div className={`${showEditModal ? 'bg-black' : 'bg-white'} max-w-4xl mx-auto`}>
             {/* Profile Header */}
