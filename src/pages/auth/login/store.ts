@@ -47,5 +47,22 @@ export const useSignInStore = create<ISignInStore>((set,get) => ({
             }
             return { message: "something went wrong", severity: "error" };
         }
-    }
+    },
+    // state for setting the state of user to isreseting 
+    isResettingPassword: false,
+    setIsResetttingPassword: (isResettingPassword:boolean) => {
+        set({isResettingPassword:isResettingPassword})
+    },
+
+    // state to verify whether the email is verified
+    isEmailVerified: false,
+    setIsEmailVerified: (isVerified: boolean) => {
+        set({isEmailVerified:isVerified})
+    },
+
+    // state to verigy the otp
+    isOtpVerified : false,
+    setIsOtpVerified :(isVerified: boolean) => {
+        set({isOtpVerified:isVerified})
+    },
 }));

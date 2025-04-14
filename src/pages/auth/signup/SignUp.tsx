@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignUpHelper } from "./helper";
 import { useSignUpStore } from "./store";
 import { ISignUpData, ISignUpStore } from "./interface";
-import Loader from "../../../global/components/Loader";
 import { useGlobalStore } from "../../../global/store";
 
 // Import icons
@@ -12,11 +11,14 @@ import { HiOutlineMail } from "react-icons/hi";
 import { RiLockPasswordLine, RiUserLine } from "react-icons/ri";
 import { ArrowRight } from "lucide-react";
 import { AlertColor } from "@mui/material";
+import OtpModal from "../components/otp-modal";
 
 const SignUp = () => {
 
     const navigate = useNavigate();
     const signUpClass = useMemo(() => new SignUpHelper(), []);
+
+    const { isOtpModalOpen, setOpenOtpModal, isEmailConfirmed, setIsEmailConfirmed } = useSignUpStore();
 
     const setData = useSignUpStore((state: ISignUpStore) => state.setSignUpData);
     const data: ISignUpData = useSignUpStore((state: ISignUpStore) => state.signUpData);
@@ -47,13 +49,11 @@ const SignUp = () => {
         }
 
         if (res) {
+            setOpenOtpModal(true);
             setToasterData({ message: res.message, severity: res.severity as AlertColor, open: true });
-            navigate('/login')
         }
 
     }
-
-    if (loading) return (<Loader />)
 
     return (
         <div className="min-h-screen bg-white flex items-center justify-center p-4">
@@ -238,18 +238,12 @@ const SignUp = () => {
                     </Link>
                 </p>
 
-                {/* Bottom Badge */}
-                {/* <div className="mt-10 text-center">
-                    <div className="inline-flex items-center space-x-2 text-sm text-gray-500">
-                        <span className="flex items-center">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
-                            2.8k+ students online
-                        </span>
-                        <span>•</span>
-                        <span>Join them today</span>
-                    </div>
-                </div> */}
             </div>
+
+            {isOtpModalOpen && (
+                <OtpModal email={data.email as string} onClose={() => { setOpenOtpModal(false) }} />
+            )}
+
         </div>
     );
 };

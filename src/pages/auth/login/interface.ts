@@ -22,4 +22,17 @@ export interface ISignInStore {
     clearSignInDataError : () => void;
     // when the user signs in to the application, the server sends back the message and severity of the message
     signIn : () => Promise<IResponse>;
+
+    // for forgot password
+    isResettingPassword: boolean,
+    setIsResetttingPassword: (isResettingPassword:boolean) => void;
+
+    isEmailVerified: boolean,
+    setIsEmailVerified: (isVerified: boolean) => void;
+
+    // state for finally changing the password 
+    isOtpVerified: boolean,
+    setIsOtpVerified:  (isVerified: boolean) => void;
+    
+
 }

@@ -35,7 +35,11 @@ export const useSignUpStore = create<ISignUpStore>((set,get) => ({
     }
     
     try {
-        const res = await axios_no_auth.post('User/create-user',signUpData);
+        const res = await axios_no_auth.post('otp/request-otp',signUpData);
+
+        if(res.status == 204){
+            return {message: "Please verify your email", severity:"success"}
+        }
         return res?.status >= 200 && res?.status <= 300
             ? { message: res?.data?.message, severity: "success" }
             : { message: res?.data?.message, severity: "error" };
@@ -45,5 +49,12 @@ export const useSignUpStore = create<ISignUpStore>((set,get) => ({
         }
         return { message: "something went wrong", severity: "error" };
     }
-   }
+   },
+
+
+    isOtpModalOpen: false,
+    setOpenOtpModal: (isOpen: boolean) => set({isOtpModalOpen:isOpen}),
+
+   isEmailConfirmed:false, 
+   setIsEmailConfirmed: (status: boolean) => set({isEmailConfirmed:status})
 }))

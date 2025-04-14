@@ -47,7 +47,7 @@ export class SignUpHelper{
         try {
             const res = await signUp();
             if(res){
-                clearSignUpData();
+                // clearSignUpData();
                 clearSignUpErrors();
                 setToasterData({
                     severity: "success",

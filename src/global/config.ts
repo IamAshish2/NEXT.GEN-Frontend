@@ -2,12 +2,12 @@ import axios from "axios"
 
 export const userName = localStorage.getItem('userName');
 
-const host = "localhost"
-export const port = 44360
+export const host = "localhost"
+export const port = 7172
 
 
 // export const base_url = ``
-export const base_url = import.meta.env.BASE_URL;
+export const base_url = import.meta.env.VITE_BASE_URL;
 
 export const axios_no_auth = axios.create({
     baseURL:base_url,

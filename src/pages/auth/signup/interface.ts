@@ -21,5 +21,10 @@ export interface ISignUpStore {
     signUpErrors : ISignUpDataErrors
     setSignUpErrors : (errors:ISignUpDataErrors) => void,
     clearSignUpErrors: () => void,
-    SignUp: () => Promise<IResponse>
+    SignUp: () => Promise<IResponse>,
+
+    isOtpModalOpen: boolean,
+    setOpenOtpModal: (isOpen: boolean) => void,
+    isEmailConfirmed: boolean,
+    setIsEmailConfirmed: (status: boolean) => void
 }
