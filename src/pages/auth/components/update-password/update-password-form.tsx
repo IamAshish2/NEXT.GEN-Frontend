@@ -1,18 +1,18 @@
-import { useNavigate } from "react-router-dom";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { ArrowRight } from "lucide-react";
 import { AlertColor } from "@mui/material";
 import { useGlobalStore } from "@/global/store";
 import { useUpdatePasswordStore } from "./store";
 import { useForgotPasswordStore } from "../forgot-password/store";
+import { useSignInStore } from "../../login/store";
+import { ForgotPasswordStep } from "@/global/enums";
 
 const UpdatePasswordForm = () => {
 
     const { setToasterData } = useGlobalStore();
     const { email } = useForgotPasswordStore();
+    const { setCurrentStep } = useSignInStore();
     const { data, setData, updatePassword, clearUpdatePasswordStoreData, loading, setLoading } = useUpdatePasswordStore();
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -34,7 +34,7 @@ const UpdatePasswordForm = () => {
         setLoading(false);
 
         if (res.severity === "success") {
-            navigate('/login');
+            setCurrentStep(ForgotPasswordStep.DEFAULT)
         }
 
     }

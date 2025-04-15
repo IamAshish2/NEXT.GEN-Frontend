@@ -1,3 +1,4 @@
+import { ForgotPasswordStep } from "@/global/enums";
 import { IResponse } from "@/global/interface";
 import { AlertColor } from "@mui/material";
 
@@ -33,6 +34,12 @@ export interface ISignInStore {
     // state for finally changing the password 
     isOtpVerified: boolean,
     setIsOtpVerified:  (isVerified: boolean) => void;
+
+
+    // current step
+    currentStep: ForgotPasswordStep,
+    setCurrentStep : (step:ForgotPasswordStep)  => void;
+
     
 
 }

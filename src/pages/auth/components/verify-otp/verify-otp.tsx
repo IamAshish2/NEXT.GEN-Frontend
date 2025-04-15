@@ -6,13 +6,14 @@ import { useForgotPasswordStore } from '../forgot-password/store';
 import { useSignInStore } from '../../login/store';
 import { ArrowRight } from 'lucide-react';
 import { RiShieldKeyholeLine } from 'react-icons/ri';
+import { ForgotPasswordStep } from '@/global/enums';
 
 const VerifyOtp = ({ onClose }: any) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     const { data, setData, verifyOtp, clearData } = useVerifyOtpStore();
-    const { setIsOtpVerified } = useSignInStore();
+    const { setCurrentStep } = useSignInStore();
     const { email } = useForgotPasswordStore();
     const { setToasterData } = useGlobalStore();
 
@@ -40,7 +41,8 @@ const VerifyOtp = ({ onClose }: any) => {
 
             if (res.severity === "success") {
                 clearData();
-                setIsOtpVerified(true);
+                setCurrentStep(ForgotPasswordStep.CHANGE_PASSWORD)
+
             }
         } catch (err: any) {
             setError(err.message || 'Verification failed. Please try again.');

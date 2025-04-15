@@ -14,6 +14,7 @@ import { port } from "@/global/config";
 import ForgotPasswordOtpModal from "../components/forgot-password/forgot-otp-modal";
 import VerifyOtp from "../components/verify-otp/verify-otp";
 import UpdatePasswordForm from "../components/update-password/update-password-form";
+import { ForgotPasswordStep } from "@/global/enums";
 
 const Login = () => {
 
@@ -21,7 +22,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const loginClass = useMemo(() => new LoginClass(), []);
-    const { isResettingPassword, setIsResetttingPassword, isEmailVerified, setIsEmailVerified, isOtpVerified } = useSignInStore();
+    const { currentStep, setCurrentStep, setIsResetttingPassword, setIsEmailVerified } = useSignInStore();
 
     const setData = useSignInStore((state: ISignInStore) => state.setSignInData);
     const data: ISignInData = useSignInStore((state: ISignInStore) => state.signInData);
@@ -59,9 +60,6 @@ const Login = () => {
 
     }
 
-    console.log(isOtpVerified);
-
-
     useEffect(() => {
         if (user.userName) {
             navigate("/user-home");
@@ -74,7 +72,7 @@ const Login = () => {
 
     return (
         <>
-            {!isResettingPassword && !isEmailVerified && !isOtpVerified && <div className="min-h-screen bg-white flex items-center justify-center p-4">
+            {currentStep === ForgotPasswordStep.DEFAULT && <div className="min-h-screen bg-white flex items-center justify-center p-4">
                 <div className="w-full max-w-[440px] mx-auto">
                     {/* Header Section */}
                     <div className="text-center mb-8">
@@ -168,7 +166,7 @@ const Login = () => {
                                     className="block text-sm font-medium text-gray-700">
                                     Password
                                 </label>
-                                <button type="button" onClick={() => { setIsResetttingPassword(true) }}
+                                <button type="button" onClick={() => { setCurrentStep(ForgotPasswordStep.FORGOT_PASSWORD) }}
                                     className="text-sm text-[#E26300] hover:text-[#E26300]/80 transition-colors">
                                     Forgot password?
                                 </button>
@@ -235,9 +233,9 @@ const Login = () => {
                 </div>
             </div>}
 
-            {isResettingPassword && !isOtpVerified && <ForgotPasswordOtpModal onClose={() => { setIsResetttingPassword(false) }} />}
-            {isEmailVerified && !isOtpVerified && <VerifyOtp onClose={() => { setIsEmailVerified(false) }} />}
-            {isOtpVerified && <UpdatePasswordForm />}
+            {currentStep === ForgotPasswordStep.FORGOT_PASSWORD && <ForgotPasswordOtpModal onClose={() => { setIsResetttingPassword(false) }} />}
+            {currentStep === ForgotPasswordStep.OTP && <VerifyOtp onClose={() => { setIsEmailVerified(false) }} />}
+            {currentStep === ForgotPasswordStep.CHANGE_PASSWORD && <UpdatePasswordForm />}
         </>
     );
 };

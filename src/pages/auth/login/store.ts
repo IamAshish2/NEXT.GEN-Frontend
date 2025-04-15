@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { ISignInData, ISignInDataError, ISignInStore } from './interface'
 import { axios_auth } from '../../../global/config';
 import { useGlobalStore } from '@/global/store';
+import { ForgotPasswordStep } from '@/global/enums';
 
 export const useSignInStore = create<ISignInStore>((set,get) => ({
     signInData: {email: "", password: "", userName: ""},
@@ -65,4 +66,11 @@ export const useSignInStore = create<ISignInStore>((set,get) => ({
     setIsOtpVerified :(isVerified: boolean) => {
         set({isOtpVerified:isVerified})
     },
+
+
+        // current step
+        currentStep: ForgotPasswordStep.DEFAULT,
+        setCurrentStep : (step:ForgotPasswordStep)  => {
+            set({currentStep:step})
+        }
 }));

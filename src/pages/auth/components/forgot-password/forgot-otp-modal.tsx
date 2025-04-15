@@ -6,12 +6,13 @@ import { IForgotOptModalProps } from "./interface";
 import { useSignInStore } from "../../login/store";
 import { ArrowRight } from "lucide-react";
 import { RiMailLine } from "react-icons/ri";
+import { ForgotPasswordStep } from "@/global/enums";
 
 const ForgotPasswordOtpModal = ({ onClose }: IForgotOptModalProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const { email, setEmail, forgotPassword } = useForgotPasswordStore();
-    const { setIsEmailVerified, setIsResetttingPassword } = useSignInStore();
+    const { setCurrentStep } = useSignInStore();
 
     const { setToasterData } = useGlobalStore();
 
@@ -33,8 +34,7 @@ const ForgotPasswordOtpModal = ({ onClose }: IForgotOptModalProps) => {
             }
 
             if (res.severity === "success") {
-                setIsEmailVerified(true);
-                setIsResetttingPassword(false);
+                setCurrentStep(ForgotPasswordStep.OTP)
             }
 
         } catch (err: any) {
